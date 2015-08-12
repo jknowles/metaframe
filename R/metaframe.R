@@ -1,21 +1,23 @@
 ## R metaframe S3 objects
 
-#' @title Summarize a metaframe
-#' @description This is a function to summarize a metaframe
-#' @param object An object of class metaframe
-#' @param ... ignored
+#' @title metaframe
+#' @description A data.frame with metadata attached to it
+#' @param data a data.frame
 #' @export
-#' @examples
-summary.metaframe <- function(object, ...){
-  summary(object$dataframe)
+metaframe <- function(data) {
+  if (!is.data.frame(x)) stop("X must be a data.frame")
+  attr(data, "sources") <- "No sources listed."
+  attr(data, "description") <- "Standard metaframe. Undocumented"
+  attr(data, "annotations") <- "No annotations"
+  attr(data, "revisions") <- "Initial version"
+  structure(data.frame(x), class = c("metaframe", "data.frame"))
 }
 
-#' @title Print a metaframe object
-#' @description This is a function to print a metaframe
-#' @param x An object of class metaframe
-#' @param ... ignored
-#' @export
-#' @examples
-print.metaframe <- function(x, ...){
-  message("Not written yet.")
-}
+# metaAttribs <- function(x){
+#   attr(x, "sources") <- "No sources listed."
+#   attr(x, "description") <- "Standard metaframe. Undocumented"
+#   attr(x, "annotations") <- "No annotations"
+#   attr(x, "revisions") <- "Initial version"
+# }
+
+
