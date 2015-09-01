@@ -3,12 +3,12 @@
 \name{document.data.frame}
 \alias{document}
 \alias{document.data.frame}
-\title{Setting metadata from a data.frame object}
+\title{Setting meta.data from a data.frame object}
 \usage{
 \method{document}{data.frame}(data, sources = NULL, units = NULL,
   description = NULL, annotations = NULL, revisions = NULL)
 
-metadata(data, ...)
+meta.data(data, ...)
 }
 \arguments{
 \item{data}{a data object to define metadata for}
@@ -18,12 +18,12 @@ metadata(data, ...)
 \item{...}{optional additional parameters.}
 }
 \value{
-A \code{\linkS4class{metadata}} object
+A \code{\linkS4class{meta.data}} object
 }
 \description{
-Setting metadata from a data.frame object
+Setting meta.data from a data.frame object
 
-Define and describe metadata for a data object in R
+Define and describe meta.data for a data object in R
 }
 \details{
 The object has the following items

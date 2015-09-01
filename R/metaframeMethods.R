@@ -3,7 +3,7 @@
 #' @param object An object of class metaframe
 #' @param ... ignored
 #' @export
-summary.metaframe <- function(object, ...){
+summary.meta.frame <- function(object, ...){
   summary(object$dataframe)
 }
 
@@ -12,7 +12,7 @@ summary.metaframe <- function(object, ...){
 #' @param x An object of class metaframe
 #' @param ... ignored
 #' @export
-print.metaframe <- function(x, ...){
+print.meta.frame <- function(x, ...){
   message("Not written yet.")
 }
 
@@ -22,6 +22,6 @@ print.metaframe <- function(x, ...){
 #' @param object An object of class metaframe
 #' @param ... ignored
 #' @export
-str.metaframe <- function(object, ...){
+str.meta.frame <- function(object, ...){
   message("Not written yet.")
 }

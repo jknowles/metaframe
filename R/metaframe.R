@@ -1,29 +1,36 @@
 ## R metaframe S3 objects
 
-#' @title metaframe
+#' @title meta.frame
 #' @description A data.frame with metadata attached to it
 #' @param data a data.frame
 #' @export
-metaframe <- function(data) {
-  if (!is.data.frame(x)) stop("X must be a data.frame")
-  attr(data, "sources") <- "No sources listed."
-  attr(data, "description") <- "Standard metaframe. Undocumented"
-  attr(data, "annotations") <- "No annotations"
-  attr(data, "revisions") <- "Initial version"
-  structure(data.frame(x), class = c("metaframe", "data.frame"))
+meta.frame <- function(data, ...) {
+  if (!is.data.frame(data)) stop("data must be a data.frame")
+  attr(data, "meta.data") <- document(data, ...)
+  structure(data.frame(data), class = c("meta.frame", "data.frame"))
 }
 
-#' metadata data documentation class
+#' "meta.frame" class
 #'
-#' A metadata object stores metadata about a given data element in R in a structured 
-#' set of lists for easy output and analysis. Most commonly metadata objects are 
-#' attached to a data.frame and stored as a metaframe. 
+#' @name meta.frame-class
+#' @aliases meta.frame
+#' @family meta.frame
 #'
-##' @name metadata-class
-##' @aliases metadata-class
+#' @exportClass meta.frame
+setOldClass(c("meta.frame", "data.frame"))
+
+
+#' meta.data data documentation class
+#'
+#' A meta.data object stores metadata about a given data element in R in a structured 
+#' set of lists for easy output and analysis. Most commonly meta.data objects are 
+#' attached to a data.frame and stored as a meta.frame. 
+#'
+##' @name meta.data-class
+##' @aliases meta.data-class
 ##' @docType class
 ##' @section Objects from the Class: Objects are created by calls to
-##' \code{\link{metadata}}.
+##' \code{\link{meta.data}}.
 ##' @details
 ##' The object has the following items
 ##' \itemize{
@@ -33,21 +40,21 @@ metaframe <- function(data) {
 ##' \item{annotations - character strings describing any additional details about specific data elements}
 ##' \item{revisions - a list of data revisions}
 ##' }
-##' @seealso \code{\link{metaframe}}
+##' @seealso \code{\link{meta.frame}}
 ##' @keywords classes
 ##' @examples
 ##'
-##' showClass("metadata")
-##' methods(class="metadata")
+##' showClass("meta.data")
+##' methods(class="meta.data")
 #' @export
-metadata <- setClass("metadata", representation(
+meta.data <- setClass("meta.data", representation(
   sources = "list",
   units = "list", 
   description = "list", 
   annotations = "list", 
   revisions = "list"),   S3methods=TRUE)
 
-#' @title Setting metadata from a data.frame object
+#' @title Setting meta.data from a data.frame object
 #' @rdname document
 #' @method document data.frame
 #' @export
@@ -81,24 +88,23 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
     units <- as.list(units)
   }
   
-  outMD <- metadata(sources = sources,
+  outMD <- meta.data(sources = sources,
                      units = units, 
                      description = description, 
                      annotations = annotations, 
                      revisions = revisions)
-  # class(outMD) <- "metadata"
   return(outMD)
 } 
 
 
-##' Generic function to build a metadata object
+##' Generic function to build a meta.data object
 ##'
-##' Define and describe metadata for a data object in R
-##' @usage metadata(data, ...)
+##' Define and describe meta.data for a data object in R
+##' @usage meta.data(data, ...)
 ##' @param data a data object to define metadata for
 ##' @param sources a list of charcter strings describing data sources
 ##' @param ... optional additional parameters. 
-##' @return A \code{\linkS4class{metadata}} object 
+##' @return A \code{\linkS4class{meta.data}} object 
 ##' @details
 ##' The object has the following items
 ##' \itemize{
