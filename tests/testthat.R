@@ -1,4 +1,4 @@
 library(testthat)
-library(me)
+library(metaframe)
 
-test_check("me")
+test_check("metaframe")
