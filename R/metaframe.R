@@ -57,7 +57,8 @@ meta.data <- setClass("meta.data", representation(
   revisions = "list", 
   var_names = "character", 
   obs_names = "character", 
-  summary = "list"),   S3methods=TRUE)
+  summary = "list", 
+  Rname = "character"),   S3methods=TRUE)
 
 #' @title Setting meta.data from a data.frame object
 #' @rdname document
@@ -106,7 +107,8 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
                      revisions = revisions, 
                      var_names = colnames(data), 
                      obs_names = rownames(data), 
-                     summary = meta.summary(data))
+                     summary = meta.summary(data), 
+                     Rname = deparse(substitute(data)))
   return(outMD)
 } 
 
@@ -116,7 +118,6 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
 #' @method meta.summary data.frame
 #' @export
 meta.summary.data.frame <- function(object, n = 5){
-  
   stataMode <- function(x){
     x <- as.character(x)
     z <- table(as.vector(x))
@@ -128,18 +129,21 @@ meta.summary.data.frame <- function(object, n = 5){
       return(".")
   }
 
-   numSum <- apply(object, 2, function(x) {t(c(min = min(x),
-                                   Q1 = quantile(x, prob = 0.25),
-                                   median = median(x),
-                                   Q3 = quantile(x, prob = 0.75),
-                                   max =max(x), 
+   numSum <- apply(object, 2, function(x) {t(c(min = min(x, na.rm = TRUE),
+                                   Q1 = quantile(x, prob = 0.25, na.rm = TRUE),
+                                   median = median(x, na.rm = TRUE),
+                                   Q3 = quantile(x, prob = 0.75, na.rm = TRUE),
+                                   max =max(x, na.rm = TRUE),
+                                   sd = sd(x, na.rm = TRUE),
+                                   missing = sum(is.na(x == TRUE)),
                                    nunique = length(unique(x)), 
                                    mode = stataMode(x), 
                                    class = class(x)))})
 
   numSum <- data.frame(t(numSum), stringsAsFactors = FALSE)
-  names(numSum) <- c("min", "Q1", "median", "Q3", "max", "nunique", "mode", "class")
-  numSum[, 1:6] <- apply(numSum[, 1:6], 2, as.numeric)
+  names(numSum) <- c("min", "Q1", "median", "Q3", "max", "sd", 
+                     "missing", "nunique",  "mode", "class")
+  numSum[, 1:8] <- apply(numSum[, 1:8], 2, as.numeric)
   
   
   myTab <- function(x, n, order = c("ascending", "descending"), 
@@ -160,10 +164,13 @@ meta.summary.data.frame <- function(object, n = 5){
   
   highObs <-  apply(object, 2, myTab, n = n, order = "ascend")
   lowObs <- apply(object, 2, myTab, n = n, order = "desce")
+  dataDims <- list('rows' = nrow(object), 'cols' = ncol(object), 
+                   'uniqueRows' = nrow(object[!duplicated(object),]))
   varClasses <- apply(object, 2, class)
   output <- list("numericSummary" = numSum, 
                  "highObs" = highObs, 
                  "lowObs" = lowObs, 
+                 'dims' = dataDims,
                  "classes" = varClasses)
   return(output)
 }
