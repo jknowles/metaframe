@@ -7,7 +7,7 @@
 meta.frame <- function(data, ...) {
   if (!is.data.frame(data)) stop("data must be a data.frame")
   attr(data, "meta.data") <- document(data, ...)
-  structure(data.frame(data), class = c("meta.frame", "data.frame"))
+  structure(data.frame(data), class = c("data.frame", "meta.frame"))
 }
 
 #' "meta.frame" class
@@ -56,7 +56,8 @@ meta.data <- setClass("meta.data", representation(
   annotations = "list", 
   revisions = "list", 
   var_names = "character", 
-  obs_names = "character"),   S3methods=TRUE)
+  obs_names = "character", 
+  summary = "list"),   S3methods=TRUE)
 
 #' @title Setting meta.data from a data.frame object
 #' @rdname document
@@ -68,7 +69,9 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
   if (!is.data.frame(data)) stop("data must be a data.frame")
   K <- ncol(data) + 1
   if(is.null(sources)){
-    sources <- vector(mode = "list", length = K)
+    srcList <- vector(mode = "list", length = 4)
+    names(srcList) <- c("Name", "Year", "Citation", "Notes")
+    sources <- rep(list(srcList), K) 
     names(sources) <- c("OVERALL", colnames(data))
   } else if(class(sources) != "list"){
     sources <- as.list(sources)
@@ -95,21 +98,83 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
   } else if(class(units) != "list"){
     units <- as.list(units)
   }
-  
+ 
   outMD <- meta.data(sources = sources,
                      units = units, 
                      description = description, 
                      annotations = annotations, 
                      revisions = revisions, 
                      var_names = colnames(data), 
-                     obs_names = rownames(data))
+                     obs_names = rownames(data), 
+                     summary = meta.summary(data))
   return(outMD)
 } 
 
 
+#' @title Build summary data from a data.frame object
+#' @rdname meta.summary
+#' @method meta.summary data.frame
+#' @export
+meta.summary.data.frame <- function(object, n = 5){
+  
+  stataMode <- function(x){
+    x <- as.character(x)
+    z <- table(as.vector(x))
+    m <- names(z)[z == max(z)]
+      
+    if (length(m) == 1){
+        return(m)
+      }
+      return(".")
+  }
+
+   numSum <- apply(object, 2, function(x) {t(c(min = min(x),
+                                   Q1 = quantile(x, prob = 0.25),
+                                   median = median(x),
+                                   Q3 = quantile(x, prob = 0.75),
+                                   max =max(x), 
+                                   nunique = length(unique(x)), 
+                                   mode = stataMode(x), 
+                                   class = class(x)))})
+
+  numSum <- data.frame(t(numSum), stringsAsFactors = FALSE)
+  names(numSum) <- c("min", "Q1", "median", "Q3", "max", "nunique", "mode", "class")
+  numSum[, 1:6] <- apply(numSum[, 1:6], 2, as.numeric)
+  
+  
+  myTab <- function(x, n, order = c("ascending", "descending"), 
+                    na.rm=TRUE){
+    order <- match.arg(order, several.ok = FALSE)
+    z <- table(x)
+    if(order == "ascending"){
+      z <- z[order(-z)][1:n]
+    } else {
+      z <- z[order(z)][1:n]
+    }
+    
+    if(na.rm == TRUE){
+      z <- z[!is.na(z)]
+    }
+    return(as.list(z))
+  }
+  
+  highObs <-  apply(object, 2, myTab, n = n, order = "ascend")
+  lowObs <- apply(object, 2, myTab, n = n, order = "desce")
+  varClasses <- apply(object, 2, class)
+  output <- list("numericSummary" = numSum, 
+                 "highObs" = highObs, 
+                 "lowObs" = lowObs, 
+                 "classes" = varClasses)
+  return(output)
+}
+
+
+
+
 ##' Generic function to build a meta.data object
 ##'
-##' Define and describe meta.data for a data object in R
+##' Define and describe meta.data for a data object in R. Based on the object 
+##' structure this function will automatically define some attributes of the data. 
 ##' @usage meta.data(data, ...)
 ##' @param data a data object to define metadata for
 ##' @param sources a list of charcter strings describing data sources
@@ -131,4 +196,20 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
 document <- function(data, sources = NULL, units=NULL, 
                      description=NULL, annotations=NULL, revisions=NULL){
   UseMethod("document")
+}
+
+##' Generic function to build summary data for a meta.data object
+##'
+##' Summarize a data object in R. Based on the object 
+##' structure this function will automatically define some attributes of the data. 
+##' @usage meta.summary(object, ...)
+##' @param object a data object to define metadata for
+##' @param n the number of unique values to report
+##' @return A \code{list} with summary features for an object
+##' @note Yadda yadda yadda
+##' @export meta.summary
+##' @rdname meta.summary
+##' @author Jared E. Knowles
+meta.summary <- function(object, n){
+  UseMethod("meta.summary")
 }

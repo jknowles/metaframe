@@ -23,7 +23,8 @@ A \code{\linkS4class{meta.data}} object
 \description{
 Setting meta.data from a data.frame object
 
-Define and describe meta.data for a data object in R
+Define and describe meta.data for a data object in R. Based on the object
+structure this function will automatically define some attributes of the data.
 }
 \details{
 The object has the following items
