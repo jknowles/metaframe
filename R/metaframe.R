@@ -36,8 +36,8 @@ setOldClass(c("meta.frame", "data.frame"))
 ##' \itemize{
 ##' \item{sources - a list of character strings describing data sources}
 ##' \item{units - a list of character strings specifying the units of variables}
-##' \item{description - a generic character string describing an object}
-##' \item{annotations - character strings describing any additional details about specific data elements}
+##' \item{labels - a generic character string describing an object}
+##' \item{notes - character strings describing any additional details about specific data elements}
 ##' \item{revisions - a list of data revisions}
 ##' \item{var_names - a character vector of column names in last known order}
 ##' \item{obs_names - a charadcter vector of row names in last known order}
@@ -52,8 +52,8 @@ setOldClass(c("meta.frame", "data.frame"))
 meta.data <- setClass("meta.data", representation(
   sources = "list",
   units = "list", 
-  description = "list", 
-  annotations = "list", 
+  labels = "list", 
+  notes = "list", 
   revisions = "list", 
   var_names = "character", 
   obs_names = "character", 
@@ -65,7 +65,7 @@ meta.data <- setClass("meta.data", representation(
 #' @method document data.frame
 #' @export
 document.data.frame <- function(data, sources = NULL, units=NULL, 
-                                description=NULL, annotations=NULL, 
+                                labels=NULL, notes=NULL, 
                                 revisions=NULL){
   if (!is.data.frame(data)) stop("data must be a data.frame")
   K <- ncol(data) + 1
@@ -77,16 +77,16 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
   } else if(class(sources) != "list"){
     sources <- as.list(sources)
   }
-  if(is.null(description)){
-    description <- vector(mode = "list", length = K)
-    names(description) <- c("OVERALL", colnames(data))
-  } else if(class(description) != "list"){
-    description <- as.list(description)
+  if(is.null(labels)){
+    labels <- vector(mode = "list", length = K)
+    names(labels) <- c("OVERALL", colnames(data))
+  } else if(class(labels) != "list"){
+    labels <- as.list(labels)
   }
-  if(is.null(annotations)){
-    annotations <- list("No annotations listed.")
-  } else if(class(annotations) != "list"){
-    annotations <- as.list(annotations)
+  if(is.null(notes)){
+    notes <- list("No notes listed.")
+  } else if(class(notes) != "list"){
+    notes <- as.list(notes)
   }
   if(is.null(revisions)){
     revisions <- list("No revisions listed.")
@@ -102,8 +102,8 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
  
   outMD <- meta.data(sources = sources,
                      units = units, 
-                     description = description, 
-                     annotations = annotations, 
+                     labels = labels, 
+                     notes = notes, 
                      revisions = revisions, 
                      var_names = colnames(data), 
                      obs_names = rownames(data), 
@@ -192,8 +192,8 @@ meta.summary.data.frame <- function(object, n = 5){
 ##' \itemize{
 ##' \item{sources - a list of character strings describing data sources}
 ##' \item{units - a list of character strings specifying the units of variables}
-##' \item{description - a generic character string describing an object}
-##' \item{annotations - character strings describing any additional details about specific data elements}
+##' \item{labels - a generic character string describing an object}
+##' \item{notes - character strings describing any additional details about specific data elements}
 ##' \item{revisions - a list of data revisions}
 ##' }
 ##' @note Yadda yadda yadda
@@ -201,7 +201,7 @@ meta.summary.data.frame <- function(object, n = 5){
 ##' @rdname document
 ##' @author Jared E. Knowles
 document <- function(data, sources = NULL, units=NULL, 
-                     description=NULL, annotations=NULL, revisions=NULL){
+                     labels=NULL, notes=NULL, revisions=NULL){
   UseMethod("document")
 }
 

@@ -6,7 +6,7 @@
 \title{Setting meta.data from a data.frame object}
 \usage{
 \method{document}{data.frame}(data, sources = NULL, units = NULL,
-  description = NULL, annotations = NULL, revisions = NULL)
+  labels = NULL, notes = NULL, revisions = NULL)
 
 meta.data(data, ...)
 }
@@ -31,8 +31,8 @@ The object has the following items
 \itemize{
 \item{sources - a list of character strings describing data sources}
 \item{units - a list of character strings specifying the units of variables}
-\item{description - a generic character string describing an object}
-\item{annotations - character strings describing any additional details about specific data elements}
+\item{labels - a generic character string describing an object}
+\item{notes - character strings describing any additional details about specific data elements}
 \item{revisions - a list of data revisions}
 }
 }

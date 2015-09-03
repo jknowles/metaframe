@@ -63,7 +63,7 @@ codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
   for (i in 1:nvars) {
     idx <-  varnames[i]
     cb.name <-   paste("## `", varnames[i], "`  \n\n")
-    cb.label <-  paste("> **Label:  **", object@description[[idx]], "  ")
+    cb.label <-  paste("> **Label:  **", object@labels[[idx]], "  ")
     cb.type <-   paste("> **Type:   **", ifelse(varnames[i]=="DATA",  "data.frame", 
                                                 object@summary$classes[[idx]]), "  ")
     cb.source <- paste("> **Source Name: **", object@sources[[idx]]$Name, "  ")
@@ -72,11 +72,11 @@ codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
     cb.source <- paste("> **Source Notes: **", object@sources[[idx]]$Notes, "  ")
     cb.unit <-   paste("> **Units:  **", object@units[[idx]], "  ")
     cb.desc <-   paste(ifelse(varnames[i]=="DATA", 
-                              paste("**Metaframe Description**  \n", object@description$OVERALL, "  \n\n"), 
-                              "**Description**  \n"),
-                       ifelse(is.null(object@annotations[idx]), 
-                              "No annotations.  \n\n", 
-                              paste(object@annotations[idx], "\n\n")),
+                              paste("**Metaframe Label**  \n", object@labels$OVERALL, "  \n\n"), 
+                              "**Label**  \n"),
+                       ifelse(is.null(object@notes[idx]), 
+                              "No notes.  \n\n", 
+                              paste(object@notes[idx], "\n\n")),
                        ifelse(is.null(object@revisions[idx]), 
                               "No revisions.  \n\n", 
                               paste(object@revisions[idx], "\n\n")),
