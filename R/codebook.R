@@ -48,9 +48,10 @@ codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
     }
     fname <- file(description = file, open = "r+")
   }
-  
-  header <- c("---", paste('title: "Codebook for `', mf.name, '`"', sep=""), paste("date:", date()),
-              "output: ", "  html_document:", "    number_sections: no", "    toc: yes", "    toc_depth: 2", "---", "\n")
+    header <- c("---", paste('title: "Codebook for `', mf.name, '`"', sep=""), 
+                paste("date:", date()), "output: ", "  html_document:", 
+                "    number_sections: no", "    toc: yes", 
+                "    toc_depth: 2", "---", "\n")
   
   cat(header, sep="\n", file=fname, append=FALSE)
   
