@@ -1,6 +1,13 @@
 metaframe
 =========
 
+[![Build Status](http://img.shields.io/travis/jknowles/metaframe.svg?style=flat)](https://travis-ci.org/jknowles/metaframe)
+[![Coverage Status](http://img.shields.io/coveralls/jknowles/metaframe.svg?style=flat)](https://coveralls.io/r/jknowles/metaframe)
+[![Github Issues](http://githubbadges.herokuapp.com/jknowles/metaframe/issues.svg)](https://github.com/jknowles/metaframe/issues)
+[![Pending Pull-Requests](http://githubbadges.herokuapp.com/jknowles/metaframe/pulls.svg?style=flat)](https://github.com/jknowles/metaframe/pulls)
+[![License](https://img.shields.io/github/license/jknowles/metaframes.svg)](http://www.gnu.org/licenses/gpl.html)
+
+
 An R package to extend the functionality of data.frame and data.frame-like 
 objects with metadata and codebook annotations.
 
@@ -33,6 +40,8 @@ library(metaframe)
 doco <- document(airquality)
 ```
 
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 
 

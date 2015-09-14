@@ -6,8 +6,17 @@
 \usage{
 skel_reader(file)
 }
+\arguments{
+\item{file}{a file path to read in a csv file}
+}
+\value{
+an object of class meta.data
+}
 \description{
 Read in an external metadata file formatted by skeleton
 }
-\keyword{internal}
+\details{
+The csv file should match the format of that produced by the appropriate
+skeleton method
+}
 

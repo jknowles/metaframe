@@ -9,3 +9,15 @@ test_that("Basic functions do not throw errors", {
   expect_identical(slotNames(outMD), c("sources", "units", "description", "annotations", "revisions", 
                                        "var_names", "obs_names", "summary", "Rname",".S3Class"))
 })
+
+
+test_that("Skeleton reader works", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  expect_is(outMD, "meta.data")
+  expect_identical(slotNames(outMD), c("sources", "units", "description", "annotations", "revisions", 
+                                       "var_names", "obs_names", "summary", "Rname",".S3Class"))
+})
+
+
+

@@ -35,6 +35,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE) {
   
   md_skel$variable <- varNames
   numSum <- meta.summary(data)$numericSummary
+  otherSum <- meta.summary(data)
   numSum$variable <- row.names(numSum)
   md_skel <- merge(md_skel, numSum, by = "variable",all.x=TRUE)
   
@@ -63,7 +64,11 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE) {
 
 
 #' @title Read in an external metadata file formatted by skeleton
-#' @keywords internal
+#' @param file a file path to read in a csv file
+#' @return an object of class meta.data
+#' @details The csv file should match the format of that produced by the appropriate 
+#' skeleton method
+#' @export
 skel_reader <- function(file){
   md_skel <- read.csv(file = file, stringsAsFactors = FALSE)
   
@@ -91,27 +96,29 @@ skel_reader <- function(file){
     }
     }
     
-    numSum <- data.frame(t(numSum), stringsAsFactors = FALSE)
-    names(numSum) <- c("min", "Q1", "median", "Q3", "max", "sd", 
-                       "missing", "nunique",  "mode", "class")
-    numSum[, 1:8] <- apply(numSum[, 1:8], 2, as.numeric)
+    numSum <- data.frame(min = md_skel$min, Q1 = md_skel$Q1, 
+                         median = md_skel$median, Q3 = md_skel$Q3, 
+                         max = md_skel$max, sd = md_skel$sd, 
+                         missing = md_skel$missing, 
+                         nunique = md_skel$nunique, 
+                         mode = md_skel$mode, class = md_skel$class)
     
-    output <- list("numericSummary" = numSum, 
-                   "highObs" = highObs, 
-                   "lowObs" = lowObs, 
-                   'dims' = dataDims,
-                   "classes" = varClasses)
+    #highObs, lowObs, dims, classes
+    newClasses <- as.character(md_skel$class); names(newClasses) <- md_skel$variable
+    summaryData <- list("numericSummary" = numSum, 
+                   "highObs" = NA, 
+                   "lowObs" = NA, 
+                   'dims' = NA,
+                   "classes" = newClasses)
     
-    outMD <- meta.data(sources = sources,
+    outMD <- metaframe:::meta.data(sources = sources,
                        units = units, 
                        labels = labels, 
                        notes = notes, 
                        revisions = revisions, 
                        var_names = md_skel$variable, 
                        obs_names = "Missing", 
-                       summary = meta.summary(data), 
-                       Rname = "From Skeleton")
+                       summary = summaryData, 
+                       Rname = paste("from file", file, sep = " "))
     return(outMD)
-
-  
 }

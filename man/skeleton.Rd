@@ -13,7 +13,7 @@ skeleton(data, file, replace)
 \item{data}{a data object to construct a codebook skeleton for}
 
 \item{file}{a character string indicating where the file should be saved, if
-NULL default is `codebook`}
+NULL codebook object is printed to the console}
 
 \item{replace}{logical, should an existing codebook skeleton file be
 overwritten, default is FALSE}
