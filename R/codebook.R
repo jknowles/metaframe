@@ -15,7 +15,7 @@
 ##' @export codebook
 ##' @rdname codebook
 ##' @author Carl Frederick
-codebook <- function(data, file=NULL, replace=FALSE, render=FALSE){
+codebook <- function(object, file=NULL, replace=FALSE, render=FALSE){
   UseMethod("codebook")
 }
 

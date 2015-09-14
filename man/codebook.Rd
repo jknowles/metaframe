@@ -11,8 +11,6 @@ codebook(data, file, replace, render)
   render = FALSE)
 }
 \arguments{
-\item{data}{a data object to construct a codebook for}
-
 \item{file}{a character string indicating where the file should be saved, if
 NULL default is `codebook`}
 
@@ -21,6 +19,8 @@ is FALSE}
 
 \item{render}{logical, should the codebook be opened after it is written? default
 is FALSE}
+
+\item{data}{a data object to construct a codebook for}
 }
 \value{
 An HTML file with codebook information
