@@ -1,15 +1,16 @@
 Package: metaframe
 Type: Package
-Title: Metadata For Dataframes
+Title: Metadata for Dataframes
 Version: 0.0.1
-Date: 2015-1-1
+Date: 2015-09-01
 Authors@R: person(c("Jared", "E."), "Knowles", role=c("aut", "cre"),
     email="jknowles@gmail.com")
 Description: Adds metaframes to R to allow R dataframes and dataframe-like objects 
   to be combined with metadata and codebooks in convenient S3 objects. 
-License: GPL-3
+License: GPL-2 + LICENSE
 Depends: 
     R (>= 2.15.1)
 Suggests: testthat,
-    knitr
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr

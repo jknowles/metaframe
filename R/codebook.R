@@ -3,8 +3,7 @@
 ##' Build an HTML codebook from an R object that includes metadata about the 
 ##' data stored in the object and its creation. For some object types it will 
 ##' include auto-generated summary information about the data in the fields. 
-##' @usage codebook(data, file, replace, render)
-##' @param data a data object to construct a codebook for
+##' @param object a data object to construct a codebook for
 ##' @param file a character string indicating where the file should be saved, if 
 ##' NULL default is `codebook`
 ##' @param replace logical, should an existing codebook file be overwritten, default 
@@ -24,6 +23,7 @@ codebook <- function(object, file=NULL, replace=FALSE, render=FALSE){
 #' @title Build a codebook from a meta.data object
 #' @rdname codebook
 #' @method codebook meta.data
+#' @import rmarkdown
 #' @export
 codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
   if (!inherits(object, "meta.data")) {

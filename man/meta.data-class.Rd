@@ -30,8 +30,5 @@ The object has the following items
 showClass("meta.data")
 methods(class="meta.data")
 }
-\seealso{
-\code{\link{meta.frame}}
-}
 \keyword{classes}
 

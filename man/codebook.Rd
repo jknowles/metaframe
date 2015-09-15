@@ -5,12 +5,14 @@
 \alias{codebook.meta.data}
 \title{Generic function to build a codebook from an R object}
 \usage{
-codebook(data, file, replace, render)
+codebook(object, file = NULL, replace = FALSE, render = FALSE)
 
 \method{codebook}{meta.data}(object, file = NULL, replace = FALSE,
   render = FALSE)
 }
 \arguments{
+\item{object}{a data object to construct a codebook for}
+
 \item{file}{a character string indicating where the file should be saved, if
 NULL default is `codebook`}
 
@@ -19,8 +21,6 @@ is FALSE}
 
 \item{render}{logical, should the codebook be opened after it is written? default
 is FALSE}
-
-\item{data}{a data object to construct a codebook for}
 }
 \value{
 An HTML file with codebook information

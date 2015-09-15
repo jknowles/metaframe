@@ -111,7 +111,7 @@ skel_reader <- function(file){
                    'dims' = NA,
                    "classes" = newClasses)
     
-    outMD <- metaframe:::meta.data(sources = sources,
+    outMD <- meta.data(sources = sources,
                        units = units, 
                        labels = labels, 
                        notes = notes, 
