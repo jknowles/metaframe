@@ -18,7 +18,7 @@ print.meta.data <- function(x, ...){
 #' @description This is a function to summarize a meta.data
 #' @param object An object of class meta.data
 #' @param ... ignored
-##' @method summary meta.data
+#' @method summary meta.data
 #' @export
 summary.meta.data <- function(object, ...){
   # message("Not written yet.")

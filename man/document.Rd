@@ -16,6 +16,14 @@ document(data, sources = NULL, units = NULL, labels = NULL,
 
 \item{sources}{a list of charcter strings describing data sources}
 
+\item{units}{a list of character strings describing units for the columns}
+
+\item{labels}{a list of character strings providing long variable names and labels}
+
+\item{notes}{a list of character strings with additional notes about variables}
+
+\item{revisions}{a list of character strings with information about revisions to a variable}
+
 \item{...}{optional additional parameters to \code{meta.data.summary}}
 }
 \value{

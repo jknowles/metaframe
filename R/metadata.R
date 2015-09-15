@@ -22,11 +22,7 @@
 ##' \item{obs_names - a charadcter vector of row names in last known order}
 ##' }
 ##' @keywords classes
-##' @examples
-##'
-##' showClass("meta.data")
-##' methods(class="meta.data")
-#' @export
+##' @export
 meta.data <- setClass("meta.data", representation(
   sources = "list",
   units = "list", 

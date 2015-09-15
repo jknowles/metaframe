@@ -4,6 +4,10 @@
 ##' structure this function will automatically define some attributes of the data. 
 ##' @param data a data object to define metadata for
 ##' @param sources a list of charcter strings describing data sources
+##' @param units a list of character strings describing units for the columns
+##' @param labels a list of character strings providing long variable names and labels
+##' @param notes a list of character strings with additional notes about variables
+##' @param revisions a list of character strings with information about revisions to a variable
 ##' @param ... optional additional parameters to \code{meta.data.summary} 
 ##' @return A \code{\linkS4class{meta.data}} object 
 ##' @details

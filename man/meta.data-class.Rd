@@ -26,9 +26,5 @@ The object has the following items
  Objects are created by calls to
 \code{\link{meta.data}}.
 }
-\examples{
-showClass("meta.data")
-methods(class="meta.data")
-}
 \keyword{classes}
 
