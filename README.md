@@ -1,7 +1,7 @@
 metaframe
 =========
 
-[![Build Status](http://img.shields.io/travis/jknowles/metaframe.svg?style=flat)](https://travis-ci.org/jknowles/metaframe)
+[![Build Status](https://travis-ci.org/jknowles/metaframe.png?branch=master)](https://travis-ci.org/jknowles/metaframe)
 [![Coverage Status](http://img.shields.io/coveralls/jknowles/metaframe.svg?style=flat)](https://coveralls.io/r/jknowles/metaframe)
 [![Github Issues](http://githubbadges.herokuapp.com/jknowles/metaframe/issues.svg)](https://github.com/jknowles/metaframe/issues)
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/jknowles/metaframe/pulls.svg?style=flat)](https://github.com/jknowles/metaframe/pulls)
