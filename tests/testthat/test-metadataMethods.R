@@ -16,7 +16,7 @@ test_that("Metadata can be read in from outside sources", {
 test_that("Metadata objects can be printed", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
-  expect_output(outMD, "Showing metadata for object:")
+  expect_output(outMD, "Showing metadata for object")
   
 })
 
