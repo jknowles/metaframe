@@ -3,6 +3,7 @@
 ##' Define and describe meta.data for a data object in R. Based on the object 
 ##' structure this function will automatically define some attributes of the data. 
 ##' @param data a data object to define metadata for
+##' @param metadata a meta.data object to use for documentation
 ##' @param sources a list of charcter strings describing data sources
 ##' @param units a list of character strings describing units for the columns
 ##' @param labels a list of character strings providing long variable names and labels
@@ -23,7 +24,7 @@
 ##' @export document
 ##' @rdname document
 ##' @author Jared E. Knowles
-document <- function(data, sources = NULL, units=NULL, 
+document <- function(data, metadata = NULL, sources = NULL, units=NULL, 
                      labels=NULL, notes=NULL, revisions=NULL, ...){
   UseMethod("document")
 }
@@ -32,10 +33,17 @@ document <- function(data, sources = NULL, units=NULL,
 #' @rdname document
 #' @method document data.frame
 #' @export
-document.data.frame <- function(data, sources = NULL, units=NULL, 
+document.data.frame <- function(data, metadata = NULL, sources = NULL, units=NULL, 
                                 labels=NULL, notes=NULL, 
                                 revisions=NULL, ...){
   if (!is.data.frame(data)) stop("data must be a data.frame")
+  if(!is.null(metadata)){
+    stopifnot(class(metadata) == "meta.data")
+    newdata <- data
+    attr(newdata, "meta.data") <- metadata
+    class(newdata) <- c("meta.frame", "data.frame")
+    return(newdata)
+  }
   K <- ncol(data) + 1
   if(is.null(sources)){
     srcList <- vector(mode = "list", length = 4)

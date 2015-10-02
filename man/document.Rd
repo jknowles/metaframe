@@ -5,14 +5,16 @@
 \alias{document.data.frame}
 \title{Generic function to build a meta.data object}
 \usage{
-document(data, sources = NULL, units = NULL, labels = NULL,
-  notes = NULL, revisions = NULL, ...)
-
-\method{document}{data.frame}(data, sources = NULL, units = NULL,
+document(data, metadata = NULL, sources = NULL, units = NULL,
   labels = NULL, notes = NULL, revisions = NULL, ...)
+
+\method{document}{data.frame}(data, metadata = NULL, sources = NULL,
+  units = NULL, labels = NULL, notes = NULL, revisions = NULL, ...)
 }
 \arguments{
 \item{data}{a data object to define metadata for}
+
+\item{metadata}{a meta.data object to use for documentation}
 
 \item{sources}{a list of charcter strings describing data sources}
 

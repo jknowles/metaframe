@@ -1,0 +1,30 @@
+# Metadata methods
+
+context("Summary methods")
+
+test_that("Metadata can be read in from outside sources", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  expect_is(outMD, "meta.data")
+  data1 <- data(airquality)
+  newdata1 <- document(airquality, metadata = outMD)
+  expect_is(newdata1, c("meta.frame", "data.frame"))
+  expect_identical(slotNames(outMD), c("sources", "units", "labels", "notes", "revisions", 
+                                       "var_names", "obs_names", "summary", "Rname",".S3Class"))
+})
+
+test_that("Metadata objects can be printed", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  expect_output(outMD, "Showing metadata for object:")
+  
+})
+
+
+test_that("Metadata objects can be summarized", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  expect_output(summary(outMD), "Percentage of meta.data complete:")
+})
+
+

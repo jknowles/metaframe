@@ -6,12 +6,24 @@
 ##' @method print meta.data
 ##' @export
 print.meta.data <- function(x, ...){
-  cat("Showing metadata for object: ")
-  cat(unlist(x@labels), "\n")
-  cat("Data from following sources: \n", unique(unlist(x@sources)), "\n")
-  cat("Data expressed in: \n", unlist(x@units),"\n")
-  cat("Additional notes: \n", unlist(x@notes), "\n")
-  cat("Revision history: \n", unlist(x@revisions), "\n")
+  cat(paste0("Showing metadata for object:  ", x@Rname))
+  cat("\n ------------------------------------------------------------- \n")
+  cat("Showing metadata for following variables in object: \n",
+  paste(paste(names(x@labels), unlist(x@labels), sep=" : "), "\n"), "\n")
+  cat("---------------------------------------------------------------- \n")
+  cat("Data from following sources: \n", 
+      paste(paste(names(x@sources), unlist(lapply(x@sources, "[", "Citation")), 
+                  sep=" : "), "\n"), "\n")
+  cat("---------------------------------------------------------------- \n")
+  cat("Data expressed in the following units: \n", 
+      paste(paste(names(x@units), unlist(x@units), sep=" : "), "\n"), "\n")
+  cat("---------------------------------------------------------------- \n")
+  cat("Additional notes on the data: \n", 
+      paste(paste(names(x@notes), unlist(x@notes), sep=" : "), "\n"), "\n")
+  cat("---------------------------------------------------------------- \n")
+  cat("Revision history for data elements: \n", 
+      paste(paste(names(x@revisions), unlist(x@revisions), sep=" : "), "\n"), "\n")
+  cat("---------------------------------------------------------------- \n")
   }
 
 #' @title Summarize a meta.data
@@ -21,9 +33,38 @@ print.meta.data <- function(x, ...){
 #' @method summary meta.data
 #' @export
 summary.meta.data <- function(object, ...){
-  # message("Not written yet.")
+  # build a table and test for completeness of meta.data
+  # rows are variables
+  # columns are meta.data elements
+  cols <- c("units", "labels", "sources","notes", "revisions")
+  rows <- c(names(object@units))
+  sumTab <- matrix(nrow = length(rows), ncol = length(cols))
+  sumTab <- as.data.frame(sumTab); colnames(sumTab) <- cols
+  rownames(sumTab) <- rows
+  sumTab$labels <- nchar(unlist(object@labels)) > 5
+  sumTab$units <- nchar(unlist(object@units)) > 3
+  sumTab$notes <- nchar(unlist(object@notes)) > 5
+  sumTab$revisions <- nchar(unlist(object@revisions)) > 5
+  sumTab$sources <- nchar(unlist(lapply(object@sources, "[", "Citation"))) > 10
+  
+  structure(list(sumTab = sumTab, 
+                 compPercent = apply(sumTab, 2, function(x) mean(as.numeric(x))) 
+                 ), class = "summary.meta.data")
 }
 
+#' @title Print a meta.data summary
+#' @description This is a function to summarize a meta.data
+#' @param x An object of class meta.data
+#' @param ... ignored
+#' @method print summary.meta.data
+#' @export
+print.summary.meta.data <- function(x, ...){
+  cat("Percentage of meta.data complete: \n")
+  print(round(x$compPercent * 100, 3))
+  cat("----- \n")
+  cat("Complete elements: \n")
+  print(x$sumTab)
+}
 
 #' @title Display the structure of a meta.data object
 #' @description This is a function to display the internal structure of a meta.data
