@@ -85,5 +85,8 @@ document.data.frame <- function(data, sources = NULL, units=NULL,
                      obs_names = rownames(data), 
                      summary = meta.summary(data, n = n), 
                      Rname = deparse(substitute(data)))
-  return(outMD)
+  newdata <- data
+  attr(newdata, "meta.data") <- outMD
+  class(newdata) <- c("meta.frame", "data.frame")
+  return(newdata)
 } 

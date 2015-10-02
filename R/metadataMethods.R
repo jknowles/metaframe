@@ -7,10 +7,10 @@
 ##' @export
 print.meta.data <- function(x, ...){
   cat("Showing metadata for object: ")
-  cat(unlist(x@description), "\n")
+  cat(unlist(x@labels), "\n")
   cat("Data from following sources: \n", unique(unlist(x@sources)), "\n")
   cat("Data expressed in: \n", unlist(x@units),"\n")
-  cat("Additional notes: \n", unlist(x@annotations), "\n")
+  cat("Additional notes: \n", unlist(x@notes), "\n")
   cat("Revision history: \n", unlist(x@revisions), "\n")
   }
 

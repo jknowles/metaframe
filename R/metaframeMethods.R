@@ -1,11 +1,13 @@
-#' #' @title Summarize a metaframe
-#' #' @description This is a function to summarize a metaframe
-#' #' @param object An object of class metaframe
-#' #' @param ... ignored
-#' #' @export
-#' summary.meta.frame <- function(object, ...){
-#'   summary(object$dataframe)
-#' }
+#' @title Summarize a metaframe
+#' @description This is a function to summarize a metaframe
+#' @param object An object of class metaframe
+#' @param ... ignored
+#' @method summary meta.frame
+#' @export
+summary.meta.frame <- function(object, ...){
+  print(summary.data.frame(object))
+  print(summary(attr(object, "meta.data")))
+}
 #' 
 #' #' @title Print a metaframe object
 #' #' @description This is a function to print a metaframe
