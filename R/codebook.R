@@ -24,6 +24,7 @@ codebook <- function(object, file=NULL, replace=FALSE, render=FALSE){
 #' @rdname codebook
 #' @method codebook meta.data
 #' @import rmarkdown
+#' @importFrom knitr kable
 #' @export
 codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
   if (!inherits(object, "meta.data")) {
@@ -67,30 +68,32 @@ codebook.meta.data <- function(object, file=NULL, replace=FALSE, render=FALSE) {
     cb.label <-  paste("> **Label:  **", object@labels[[idx]], "  ")
     cb.type <-   paste("> **Type:   **", ifelse(varnames[i]=="DATA",  "data.frame", 
                                                 object@summary$classes[[idx]]), "  ")
-    cb.source <- paste("> **Source Name: **", object@sources[[idx]]$Name, "  ")
-    cb.source <- paste("> **Source Year: **", object@sources[[idx]]$Year, "  ")
-    cb.source <- paste("> **Source Citation: **", object@sources[[idx]]$Citation, "  ")
-    cb.source <- paste("> **Source Notes: **", object@sources[[idx]]$Notes, "  ")
+    cb.source <- paste("> **Source Name: **", object@sources[[idx]]$Name, "  \n")
+    cb.source <- paste(cb.source, "> **Source Year: **", object@sources[[idx]]$Year, "  \n")
+    cb.source <- paste(cb.source, "> **Source Citation: **", object@sources[[idx]]$Citation, "  \n")
+    cb.source <- paste(cb.source, "> **Source Notes: **", object@sources[[idx]]$Notes, "  \n")
     cb.unit <-   paste("> **Units:  **", object@units[[idx]], "  ")
     cb.desc <-   paste(ifelse(varnames[i]=="DATA", 
                               paste("**Metaframe Label**  \n", object@labels$OVERALL, "  \n\n"), 
-                              "**Label**  \n"),
-                       ifelse(is.null(object@notes[idx]), 
-                              "No notes.  \n\n", 
-                              paste(object@notes[idx], "\n\n")),
-                       ifelse(is.null(object@revisions[idx]), 
-                              "No revisions.  \n\n", 
-                              paste(object@revisions[idx], "\n\n")),
-                       ifelse(varnames[i]=="DATA", paste("Source: ", object@sources[["OVERALL"]], "  \n"), ""))
+                              paste("**Label**  \n", object@labels[[idx]], "  \n\n")),
+                       ifelse(is.null(object@notes[idx]) | nchar(object@notes[idx]) < 5, 
+                              "**Notes**  \n  No notes.  \n\n", 
+                              paste("**Notes**  \n", object@notes[idx], "  \n\n")),
+                       ifelse(is.null(object@revisions[idx]) | nchar(object@revisions[idx]) < 5, 
+                              "**Revisions**  \n  No revisions.  \n\n", 
+                              paste("**Revisions**  \n", object@revisions[idx], "  \n\n")),
+                       ifelse(varnames[i]=="DATA", paste("Source: ", object@sources[["OVERALL"]], "  \n\n"), ""))
     
     if (varnames[i]=="") {
       cat(c(cb.desc, "\n"), 
           sep="\n", file=fname, append=TRUE)
     } else  {
+      # get names in place
+      sumInfo <- knitr::kable(object@summary$numericSummary[i, ], format = "html")
       cat(c("---- \n", 
-            cb.name, cb.label, cb.type, cb.source, cb.unit, "\n", 
+            cb.name, cb.label, cb.unit, cb.type, cb.source, "\n", 
             cb.desc, "\n",
-            "**Summary**  \nInfo in here", "\n"), sep="\n", file=fname, append=TRUE)
+            "**Summary**  \n ", sumInfo, "  \n \n"), sep="\n", file=fname, append=TRUE)
     }
   }
   

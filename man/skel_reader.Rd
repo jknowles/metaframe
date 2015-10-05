@@ -4,10 +4,14 @@
 \alias{skel_reader}
 \title{Read in an external metadata file formatted by skeleton}
 \usage{
-skel_reader(file)
+skel_reader(file, fileEncoding = "latin1", ...)
 }
 \arguments{
 \item{file}{a file path to read in a csv file}
+
+\item{fileEncoding}{character, encoding of the csv file to read, default is "latin1"}
+
+\item{...}{additional arguments to pass to \code{\link{read.csv}}}
 }
 \value{
 an object of class meta.data

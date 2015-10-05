@@ -11,10 +11,10 @@ License: GPL-2 | file LICENSE
 Depends: 
     R (>= 2.15.1),
     rmarkdown,
-    methods
+    methods,
+    knitr
 Suggests: 
     testthat,
-    knitr
 Enhances: 
   data.table
 VignetteBuilder: knitr

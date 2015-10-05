@@ -3,17 +3,19 @@
 ##' To make metadata input more efficient, this function builds out a custom 
 ##' csv file that can be edited in an outside text editor and read back into R 
 ##' and then used to construct a metadata object. 
-##' @usage skeleton(data, file, replace)
 ##' @param data a data object to construct a codebook skeleton for
 ##' @param file a character string indicating where the file should be saved, if 
 ##' NULL codebook object is printed to the console
 ##' @param replace logical, should an existing codebook skeleton file be 
 ##' overwritten, default is FALSE
+##' @param fileEncoding file encoding to be passed to \code{\link{write.csv}}, 
+##' default is "latin1"
+##' @param ... additional arguments to pass to \code{\link{write.csv}}
 ##' @return A CSV file
 ##' @export skeleton
 ##' @rdname skeleton
 ##' @author Jared Knowles
-skeleton <- function(data, file=NULL, replace=FALSE){
+skeleton <- function(data, file=NULL, replace=FALSE, fileEncoding="latin1", ...){
   UseMethod("skeleton")
 }
 
@@ -24,7 +26,7 @@ skeleton <- function(data, file=NULL, replace=FALSE){
 #' @method skeleton data.frame
 #' @importFrom tools file_ext
 #' @export
-skeleton.data.frame <- function(data, file=NULL, replace=FALSE) {
+skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="latin1", ...) {
   varNames <- c("OVERALL", colnames(data))
   colNames <- c("variable", "labels", "units", "notes", "sources.name", "sources.year", 
                 "sources.citation", "sources.notes", "revisions")
@@ -65,12 +67,14 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE) {
 
 #' @title Read in an external metadata file formatted by skeleton
 #' @param file a file path to read in a csv file
+#' @param fileEncoding character, encoding of the csv file to read, default is "latin1"
+#' @param ... additional arguments to pass to \code{\link{read.csv}} 
 #' @return an object of class meta.data
 #' @details The csv file should match the format of that produced by the appropriate 
 #' skeleton method
 #' @export
-skel_reader <- function(file){
-  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, fileEncoding="latin1")
+skel_reader <- function(file, fileEncoding = "latin1", ...){
+  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, ...)
   # Add some validity checks here
   labels <- as.list(md_skel$labels); names(labels) <- md_skel$variable
   units <- as.list(md_skel$units); names(units) <- md_skel$variable
@@ -102,7 +106,8 @@ skel_reader <- function(file){
                          missing = md_skel$missing, 
                          nunique = md_skel$nunique, 
                          mode = md_skel$mode, class = md_skel$class)
-    
+    # Should this be consistent with the non-skeleton version?
+    row.names(numSum) <- md_skel$variable
     #highObs, lowObs, dims, classes
     newClasses <- as.character(md_skel$class); names(newClasses) <- md_skel$variable
     summaryData <- list("numericSummary" = numSum, 

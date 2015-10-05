@@ -5,9 +5,10 @@
 \alias{skeleton.data.frame}
 \title{Generic function to build a skeleton for codebook input from an R object}
 \usage{
-skeleton(data, file, replace)
+skeleton(data, file = NULL, replace = FALSE, fileEncoding = "latin1", ...)
 
-\method{skeleton}{data.frame}(data, file = NULL, replace = FALSE)
+\method{skeleton}{data.frame}(data, file = NULL, replace = FALSE,
+  fileEncoding = "latin1", ...)
 }
 \arguments{
 \item{data}{a data object to construct a codebook skeleton for}
@@ -17,6 +18,11 @@ NULL codebook object is printed to the console}
 
 \item{replace}{logical, should an existing codebook skeleton file be
 overwritten, default is FALSE}
+
+\item{fileEncoding}{file encoding to be passed to \code{\link{write.csv}},
+default is "latin1"}
+
+\item{...}{additional arguments to pass to \code{\link{write.csv}}}
 }
 \value{
 A CSV file
