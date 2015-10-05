@@ -3,12 +3,16 @@
 \name{document}
 \alias{document}
 \alias{document.data.frame}
+\alias{document.data.table}
 \title{Generic function to build a meta.data object}
 \usage{
 document(data, metadata = NULL, sources = NULL, units = NULL,
   labels = NULL, notes = NULL, revisions = NULL, ...)
 
 \method{document}{data.frame}(data, metadata = NULL, sources = NULL,
+  units = NULL, labels = NULL, notes = NULL, revisions = NULL, ...)
+
+\method{document}{data.table}(data, metadata = NULL, sources = NULL,
   units = NULL, labels = NULL, notes = NULL, revisions = NULL, ...)
 }
 \arguments{
@@ -36,6 +40,8 @@ Define and describe meta.data for a data object in R. Based on the object
 structure this function will automatically define some attributes of the data.
 
 Setting meta.data from a data.frame object
+
+Setting meta.data from a data.table object
 }
 \details{
 The object has the following items

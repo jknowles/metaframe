@@ -2,6 +2,7 @@
 
 S3method(codebook,meta.data)
 S3method(document,data.frame)
+S3method(document,data.table)
 S3method(meta.summary,data.frame)
 S3method(print,meta.data)
 S3method(print,meta.frame)

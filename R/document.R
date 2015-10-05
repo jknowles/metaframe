@@ -98,3 +98,75 @@ document.data.frame <- function(data, metadata = NULL, sources = NULL, units=NUL
   class(newdata) <- c("meta.frame", "data.frame")
   return(newdata)
 } 
+
+#' @title Setting meta.data from a data.table object
+#' @rdname document
+#' @method document data.table
+#' @export
+document.data.table <- function(data, metadata = NULL, sources = NULL, units=NULL, 
+                                labels=NULL, notes=NULL, 
+                                revisions=NULL, ...){
+  if (class(data) != "data.table") stop("data must be a data.table")
+  if(!is.null(metadata)){
+    stopifnot(class(metadata) == "meta.data")
+    newdata <- data
+    attr(newdata, "meta.data") <- metadata
+    class(newdata) <- c("meta.frame", "data.table")
+    return(newdata)
+  }
+  K <- ncol(data) + 1
+  if(is.null(sources)){
+    srcList <- vector(mode = "list", length = 4)
+    names(srcList) <- c("Name", "Year", "Citation", "Notes")
+    sources <- rep(list(srcList), K) 
+    names(sources) <- c("OVERALL", colnames(data))
+  } else if(class(sources) != "list"){
+    sources <- as.list(sources)
+  }
+  if(is.null(labels)){
+    labels <- vector(mode = "list", length = K)
+    names(labels) <- c("OVERALL", colnames(data))
+  } else if(class(labels) != "list"){
+    labels <- as.list(labels)
+  }
+  if(is.null(notes)){
+    notes <- list("No notes listed.")
+  } else if(class(notes) != "list"){
+    notes <- as.list(notes)
+  }
+  if(is.null(revisions)){
+    revisions <- list("No revisions listed.")
+  } else if(class(revisions) != "list"){
+    revisions <- as.list(revisions)
+  }
+  if(is.null(units)){
+    units <- vector(mode = "list", length = K-1)
+    names(units) <- colnames(data)
+  } else if(class(units) != "list"){
+    units <- as.list(units)
+  }
+  # check for additional values
+  args <- eval(substitute(alist(...))) # get ellipsis values
+  args <- lapply(args, eval, parent.frame()) # convert from symbols to objects
+  if(exists("n", args)){
+    n <- args$n
+  } else{
+    n <- 5
+  }
+  
+  outMD <- meta.data(sources = sources,
+                     units = units, 
+                     labels = labels, 
+                     notes = notes, 
+                     revisions = revisions, 
+                     var_names = colnames(data), 
+                     obs_names = rownames(data), 
+                     summary = meta.summary(data, n = n), 
+                     Rname = deparse(substitute(data)))
+  newdata <- data
+  attr(newdata, "meta.data") <- outMD
+  class(newdata) <- c("meta.frame", "data.table")
+  return(newdata)
+} 
+
+
