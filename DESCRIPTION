@@ -12,6 +12,9 @@ Depends:
     R (>= 2.15.1),
     rmarkdown,
     methods
-Suggests: testthat,
+Suggests: 
+    testthat,
     knitr
+Enhances: 
+  data.table
 VignetteBuilder: knitr

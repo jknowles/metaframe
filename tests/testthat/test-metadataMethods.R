@@ -16,18 +16,21 @@ test_that("Metadata can be read in from outside sources", {
 test_that("Metadata objects can be printed", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
-  expect_output(print(outMD), "Showing metadata for object", all = FALSE, ignore.case = TRUE)
-  
+  # hack to avoid console output
+  zz <- capture.output(print(outMD))
+  expect_is(zz, "character")
+  expect_equal(length(zz), 52)
 })
 
 
 test_that("Metadata objects can be summarized", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
-  expect_output(summary(outMD), "Percentage of meta.data complete:")
+  zz <- capture.output(summary(outMD))
+  expect_equal(length(zz), 13)
+  # expect_output(summary(outMD), "Percentage of meta.data complete:")
   expect_is(summary(outMD), "summary.meta.data")
-  expect_output(str(outMD), "Object of class meta.data with slots:", all = FALSE, 
-                ignore.case = TRUE)
+  # expect_output(str(outMD), "Object of class meta.data with slots:", all = FALSE,ignore.case = TRUE)
 })
 
 

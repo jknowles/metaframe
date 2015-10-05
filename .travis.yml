@@ -1,8 +1,13 @@
-# Sample .travis.yml for R projects
-
 language: r
+
 sudo: required
-warnings_are_errors: true
+
+env:
+  global:
+    - WARNINGS_ARE_ERRORS=1
+  matrix:
+    - NOT_CRAN="true"
+    - NOT_CRAN="false"
 
 r_binary_packages:
   - knitr
