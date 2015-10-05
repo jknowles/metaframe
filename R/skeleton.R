@@ -54,12 +54,12 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
     if (file.exists(file)) {
       if (replace) {
         message(paste("Overwriting", file))
-        write.csv(md_skel, file = file, row.names = FALSE)
+        write.csv(md_skel, file = file, fileEncoding = fileEncoding, row.names = FALSE, ...)
       } else {
         stop(paste("File", file, "already exists. Set replace = TRUE to overwrite"))
       }
     } else {
-      write.csv(md_skel, file = file, row.names = FALSE)
+      write.csv(md_skel, file = file, fileEncoding = fileEncoding, row.names = FALSE, ...)
     }
   }
 }
@@ -74,7 +74,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
 #' skeleton method
 #' @export
 skel_reader <- function(file, fileEncoding = "latin1", ...){
-  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, ...)
+  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, fileEncoding = fileEncoding, ...)
   # Add some validity checks here
   labels <- as.list(md_skel$labels); names(labels) <- md_skel$variable
   units <- as.list(md_skel$units); names(units) <- md_skel$variable

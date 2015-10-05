@@ -13,7 +13,7 @@ test_that("Metadata can be read in from outside sources", {
                      "var_names", "obs_names", "summary", "Rname",".S3Class"))
 })
 
-test_that("Metadata objects can be printed", {
+test_that("metaframe objects can be printed", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
   data1 <- data(airquality)
@@ -26,9 +26,7 @@ test_that("Metadata objects can be printed", {
 })
 
 
-test_that("Metadata objects can be summarized", {
-  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
-                                   package="metaframe", mustWork=TRUE))
+test_that("Metaframe objects can be summarized", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
   data1 <- data(airquality)
