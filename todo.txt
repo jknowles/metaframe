@@ -1,7 +1,0 @@
-# To-Do
-
-- Build meta-verbs (add_source, add_description, add_annotation, add_changes)
-- Build S3 methods for metaframes (summary, print, str, write.csv)
-- Build source, description, annotation, and revisions objects, give them 
-some proper format and structure, and checkers/addition/subtraction operators
-
