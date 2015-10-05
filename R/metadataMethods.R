@@ -54,7 +54,7 @@ summary.meta.data <- function(object, ...){
 
 #' @title Print a meta.data summary
 #' @description This is a function to summarize a meta.data
-#' @param x An object of class meta.data
+#' @param x An object of class summary.meta.data
 #' @param ... ignored
 #' @method print summary.meta.data
 #' @export
@@ -70,7 +70,24 @@ print.summary.meta.data <- function(x, ...){
 #' @description This is a function to display the internal structure of a meta.data
 #' @param object An object of class meta.data
 #' @param ... ignored
+#' @method str meta.data
 #' @export
 str.meta.data <- function(object, ...){
-  # message("Not written yet.")
+  nameList <- slotNames(object)
+  cat("Object of class meta.data with slots: \n")
+  for(i in nameList){
+    tmp <- slot(object, i)
+    string1 <- paste0(i, " a ", class(tmp), " of length ", 
+                     length(tmp), ": ")
+    if(i != "sources"){
+#       cat(paste0(string1, " \n      ", 
+#                  paste0(strtrim(unlist(tmp[1:5]), 10), collapse = " ..., "), " \n"))
+      cat(string1)
+      cat("\n")
+      str(tmp)
+    } else{
+      cat(string1)
+      str(tmp)
+    }
+  }
 }
