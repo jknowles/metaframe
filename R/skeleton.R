@@ -70,7 +70,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE) {
 #' skeleton method
 #' @export
 skel_reader <- function(file){
-  md_skel <- read.csv(file = file, stringsAsFactors = FALSE)
+  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, fileEncoding="latin1")
   # Add some validity checks here
   labels <- as.list(md_skel$labels); names(labels) <- md_skel$variable
   units <- as.list(md_skel$units); names(units) <- md_skel$variable
