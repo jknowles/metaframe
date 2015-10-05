@@ -7,7 +7,7 @@
 \method{print}{summary.meta.data}(x, ...)
 }
 \arguments{
-\item{x}{An object of class meta.data}
+\item{x}{An object of class summary.meta.data}
 
 \item{...}{ignored}
 }

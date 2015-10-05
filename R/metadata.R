@@ -24,10 +24,10 @@
 ##' @keywords classes
 ##' @export
 meta.data <- setClass("meta.data", representation(
-  sources = "list",
-  units = "list", 
   labels = "list", 
+  units = "list", 
   notes = "list", 
+  sources = "list",
   revisions = "list", 
   var_names = "character", 
   obs_names = "character", 

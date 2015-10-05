@@ -9,21 +9,27 @@ summary.meta.frame <- function(object, ...){
   print(summary(attr(object, "meta.data")))
 }
 #' 
-#' #' @title Print a metaframe object
-#' #' @description This is a function to print a metaframe
-#' #' @param x An object of class metaframe
-#' #' @param ... ignored
-#' #' @export
-#' print.meta.frame <- function(x, ...){
-#'   # message("Not written yet.")
-#' }
+#' @title Print a metaframe object
+#' @description This is a function to print a metaframe
+#' @param x An object of class metaframe
+#' @param ... ignored
+#' @method print meta.frame
+#' @export
+print.meta.frame <- function(x, ...){
+  print(attr(x, "meta.data"))
+  print.data.frame(x)
+}
 #' 
 #' 
-#' #' @title Display the structure of a metaframe object
-#' #' @description This is a function to display the internal structure of a metaframe
-#' #' @param object An object of class metaframe
-#' #' @param ... ignored
-#' #' @export
-#' str.meta.frame <- function(object, ...){
-#'   # message("Not written yet.")
-#' }
+#' @title Display the structure of a metaframe object
+#' @description This is a function to display the internal structure of a metaframe
+#' @param object An object of class metaframe
+#' @param ... ignored
+#' @method str meta.frame
+#' @export
+str.meta.frame <- function(object, ...){
+  tmp <- object
+  class(tmp) <- "data.frame"
+  print(str(tmp))
+  # print(str(attr(object, "meta.data")))
+}
