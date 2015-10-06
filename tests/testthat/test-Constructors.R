@@ -169,3 +169,44 @@ test_that("Metaframe objects can be modified in place", {
   expect_error(add_unit(testMF, unit = list("Dumb" = "A person")), 
                "Names of unit must be in object@var_names.")
 })
+
+
+context("Test add_revision")
+
+test_that("Metadata objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  MonthRev <- list("Month" = "Month was modified for observation 10.")
+  MonthRev2 <- "Month was modified for observation 11."; names(MonthRev2) <- "Month"
+  outMD2 <- add_revision(outMD, revision = MonthRev)
+  expect_identical(outMD2@revisions$Month, "Month was modified for observation 10.")
+  outMD2 <- add_revision(outMD, revision = MonthRev2)
+  expect_identical(outMD2@revisions$Month, "Month was modified for observation 11.")
+  expect_error(add_revision(outMD, revision = "Month was identified using star charts."), 
+               "revision object must be named.")
+  expect_error(add_revision(outMD, revision = list("Dumb" = "A person")), 
+               "Names of revision must be in object@var_names.")
+})
+
+test_that("Metaframe objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  data1 <- data(airquality)
+  testMF <- document(airquality, metadata = outMD); rm(data1)
+  
+  MonthRev <- list("Month" = "Month was modified for observation 10.")
+  MonthRev2 <- "Month was modified for observation 11."; names(MonthRev2) <- "Month"
+  outMD2 <- add_revision(testMF, revision = MonthRev)
+  expect_is(outMD2, c("meta.frame", "data.frame"))
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@revisions$Month,  "Month was modified for observation 10.")
+  outMD2 <- add_revision(testMF, revision = MonthRev2)
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@revisions$Month,  "Month was modified for observation 11.")
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  testMF <- document(airquality, metadata = outMD)
+  expect_error(add_revision(testMF, revision = "Month of observation"), "revision object must be named.")
+  expect_error(add_revision(testMF, revision = list("Dumb" = "A person")), 
+               "Names of revision must be in object@var_names.")
+})

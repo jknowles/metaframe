@@ -15,7 +15,7 @@ add_label(object, label)
 \arguments{
 \item{object}{an object to append with meta.data labels}
 
-\item{label}{a character vector of list for the labels}
+\item{label}{a character vector or list for the labels}
 }
 \description{
 This function will add a description to a data object

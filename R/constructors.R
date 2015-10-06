@@ -53,7 +53,7 @@ add_source.meta.frame <- function(object, src){
 
 #' @title Add a label to meta.data in R
 #' @param object an object to append with meta.data labels
-#' @param label a character vector of list for the labels
+#' @param label a character vector or list for the labels
 #' @description This function will add a description to a data object
 #' in R. If a description already exists, it will be replaced. If a description
 #'  does not exist, it will convert the object to a metaframe, and append the
@@ -95,7 +95,7 @@ add_label.meta.frame <- function(object, label){
 
 #' @title Add annotation information to data in R
 #' @param object an object to append with meta.data notes
-#' @param note a character vector of list for the notes
+#' @param note a character vector or list for the notes
 #' @description This function will add annotations to the dataset. Annotations
 #' should be non-data descriptions of dataset features such as observation dates,
 #' log information, or equipment changes in collecting data.
@@ -137,7 +137,7 @@ add_note.meta.frame <- function(object, note){
 
 #' @title Add units information to data in R
 #' @param object an object to append with meta.data about units of measurement
-#' @param note a character vector of list for the units
+#' @param note a character vector or list for the units
 #' @description This function will add units information to the dataset. Units 
 #' should be short character descriptions of the unit of measure for data elements 
 #' in the data set. 
@@ -173,5 +173,46 @@ add_unit.meta.data <- function(object, unit){
 #' 
 add_unit.meta.frame <- function(object, unit){
   attr(object, "meta.data") <- add_unit(attr(object, "meta.data"), unit = unit)
+  return(object)
+}
+
+#' @title Add revisions information to data in R
+#' @param object an object to append with meta.data about revisions to the data
+#' @param revision a character vector or list of revisions
+#' @description This function will add revision information to the dataset. Revisions 
+#' are descriptions of changes made to individual fields in the dataset based on 
+#' information or changes outside of the analysis tool-chain
+#' @export
+add_revision <- function(object, revision) UseMethod("add_revision")
+
+
+#' @title Add a revisions to meta.data
+#' @describeIn add_revision
+#' @method add_revision meta.data
+#' @export
+add_revision.meta.data <- function(object, revision){
+  if(is.null(names(revision))){
+    stop("revision object must be named.")
+  }
+  if(!names(revision) %in% object@var_names){
+    stop("Names of revision must be in object@var_names.")
+  }
+  if(is.null(object@revisions)){
+    object@revisions <- unit
+  } else{
+    for(i in names(revision)){
+      object@revisions[[i]] <- revision[[i]]
+    }
+  }
+  return(object)
+}
+
+#' @title Add revisions to a meta.frame
+#' @describeIn add_revision
+#' @method add_revision meta.frame
+#' @export
+#' 
+add_revision.meta.frame <- function(object, revision){
+  attr(object, "meta.data") <- add_revision(attr(object, "meta.data"), revision = revision)
   return(object)
 }

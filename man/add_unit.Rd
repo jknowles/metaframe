@@ -15,7 +15,7 @@ add_unit(object, unit)
 \arguments{
 \item{object}{an object to append with meta.data about units of measurement}
 
-\item{note}{a character vector of list for the units}
+\item{note}{a character vector or list for the units}
 }
 \description{
 This function will add units information to the dataset. Units

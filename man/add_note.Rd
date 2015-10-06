@@ -15,7 +15,7 @@ add_note(object, note)
 \arguments{
 \item{object}{an object to append with meta.data notes}
 
-\item{note}{a character vector of list for the notes}
+\item{note}{a character vector or list for the notes}
 }
 \description{
 This function will add annotations to the dataset. Annotations
