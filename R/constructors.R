@@ -50,35 +50,51 @@ add_source.meta.frame <- function(object, src){
 }
 
 
-#' #' @title Add source information to a data.frame
-#' #' @describeIn add_source
-#' #' @export
-#' add_source.data.frame <- function(object, src){
-#'   data <- metaframe(data)
-#'   attr(data, "sources") <- src
-#'   return(data)
-#' }
+
+#' @title Add a label to meta.data in R
+#' @param object an object to append with meta.data labels
+#' @param label a character vector of list for the labels
+#' @description This function will add a description to a data object
+#' in R. If a description already exists, it will be replaced. If a description
+#'  does not exist, it will convert the object to a metaframe, and append the
+#'  description
+#' @export
+add_label <- function(object, label) UseMethod("add_label")
 
 
-#' #' @title Add a description to data in R
-#' #' @param data a dataset to append with source information
-#' #' @param descr a character vector describing the data
-#' #' @description This function will add a character description to a data object 
-#' #' in R. If a description already exists, it will be replaced. If a description 
-#' #'  does not exist, it will convert the object to a metaframe, and append the 
-#' #'  description
-#' #' @export
-#' add_description <- function(data, src) UseMethod("add_description")
+#' @title Add a label to a data.frame
+#' @describeIn add_label
+#' @method add_label meta.data
+#' @export
+add_label.meta.data <- function(object, label){
+  if(is.null(names(label))){
+    stop("label object must be named.")
+  }
+  if(!names(label) %in% object@var_names){
+    stop("Names of label must be in object@var_names.")
+  }
+  if(is.null(object@labels)){
+    object@labels <- label
+  } else{
+    for(i in names(label)){
+      object@labels[[i]] <- label[[i]]
+    }
+  }
+  return(object)
+}
+
+#' @title Add labels to a meta.frame
+#' @describeIn add_label
+#' @method add_label meta.frame
+#' @export
 #' 
-#' 
-#' #' @title Add a description to a data.frame
-#' #' @describeIn add_description
-#' #' @export
-#' add_description.data.frame <- function(data, descr){
-#'   data <- metaframe(data)
-#'   attr(data, "description") <- descr
-#'   return(data)
-#' }
+add_label.meta.frame <- function(object, label){
+  attr(object, "meta.data") <- add_label(attr(object, "meta.data"), label = label)
+  return(object)
+}
+
+
+
 #' 
 #' 
 #' #' @title Add a description to a data.frame
@@ -96,7 +112,19 @@ add_source.meta.frame <- function(object, src){
 #'   }
 #' }
 #' 
-#' 
+
+
+#' #' @title Add source information to a data.frame
+#' #' @describeIn add_source
+#' #' @export
+#' add_source.data.frame <- function(object, src){
+#'   data <- metaframe(data)
+#'   attr(data, "sources") <- src
+#'   return(data)
+#' }
+
+
+
 #' #' @title Add annotation information to data in R
 #' #' @param data a dataset to modify
 #' #' @param ann a list containing annotation descriptions

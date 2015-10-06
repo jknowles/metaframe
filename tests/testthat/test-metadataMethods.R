@@ -33,6 +33,8 @@ test_that("Metadata objects can be summarized", {
   # expect_output(str(outMD), "Object of class meta.data with slots:", all = FALSE,ignore.case = TRUE)
 })
 
+context("Constructors")
+
 test_that("Metadata objects can be modified in place", {
   outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
                                    package="metaframe", mustWork=TRUE))
@@ -69,12 +71,51 @@ test_that("Metaframe objects can be modified in place", {
   expect_identical(outMD@sources$Month$Year, 1973)
   expect_identical(outMD@sources$Month$Citation, "Not available")
   expect_identical(outMD@sources$Month$Notes, "Must I cite a month?")
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  outMD <- document(airquality, metadata = outMD)
   expect_error(add_source(outMD, src = "A person"), "src must be a list.")
   expect_error(add_source(outMD, src = list("A person")), "src list must be a named list.")
   expect_error(add_source(outMD, src = list("Dumb" = "A person")), 
                "Names of src must be in object@var_names.")
   expect_error(add_source(outMD, src = list("Month" = list("Cat" = "A person"))), 
-               "Error in add_source.meta.data(outMD, src = list(Month = list(Cat = \"A person\"))) : \n  Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.\n", fixed=TRUE)
+               "Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.\n", fixed=TRUE)
   
 })
 
+test_that("Metadata objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  MonthLabls <- list("Month" = "Month of observation")
+  MonthLabls2 <- "Month of observation"; names(MonthLabls2) <- "Month"
+  outMD2 <- add_label(outMD, label = MonthLabls)
+  expect_identical(outMD2@labels$Month, "Month of observation")
+  outMD2 <- add_label(outMD, label = MonthLabls2)
+  expect_identical(outMD2@labels$Month, "Month of observation")
+  expect_error(add_label(outMD, label = "Month of observation"), "label object must be named.")
+  expect_error(add_label(outMD, label = list("Dumb" = "A person")), 
+               "Names of label must be in object@var_names.")
+})
+
+test_that("Metaframe objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  data1 <- data(airquality)
+  testMF <- document(airquality, metadata = outMD); rm(data1)
+  
+  MonthLabls <- list("Month" = "Month of observation")
+  MonthLabls2 <- "Month of observation"; names(MonthLabls2) <- "Month"
+  outMD2 <- add_label(testMF, label = MonthLabls)
+  expect_is(outMD2, c("meta.frame", "data.frame"))
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@labels$Month, "Month of observation")
+  outMD2 <- add_label(testMF, label = MonthLabls2)
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@labels$Month, "Month of observation")
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  testMF <- document(airquality, metadata = outMD)
+  expect_error(add_label(testMF, label = "Month of observation"), "label object must be named.")
+  expect_error(add_label(testMF, label = list("Dumb" = "A person")), 
+               "Names of label must be in object@var_names.")
+})
