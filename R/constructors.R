@@ -1,29 +1,55 @@
-#' #' @title Add source information to data in R
-#' #' @param object a dataset or meta.data object to append with source information
-#' #' @param src a properly formatted source description to append, a named list
-#' #' @description This function will add source data to a data object in R. If 
-#' #' source data already exists, it will modify the source data appropriately. 
-#' #' If source data does not exist, it will convert the object to a metaframe, 
-#' #' and append the source data correctly. 
-#' #' @export
-#' add_source <- function(object, src) UseMethod("add_source")
+#' @title Add source information to data in R
+#' @param object a dataset or meta.data object to append with source information
+#' @param src a properly formatted source description to append, a named list
+#' @description This function will add source data to a data object in R. If
+#' source data already exists, it will modify the source data appropriately.
+#' If source data does not exist, it will convert the object to a metaframe,
+#' and append the source data correctly.
+#' @export
+add_source <- function(object, src) UseMethod("add_source")
+
+
+#' @title Add source information to a meta.data object
+#' @describeIn add_source
+#' @method add_source meta.data
+#' @export
 #' 
+add_source.meta.data <- function(object, src){
+  if(class(src) != "list"){
+    stop("src must be a list.")
+  }
+  if(is.null(names(src))){
+    stop("src list must be a named list.")
+  }
+  if(!names(src) %in% object@var_names){
+    stop("Names of src must be in object@var_names.")
+  }
+  if(is.null(object@sources)){
+    object@sources <- src
+  } else{
+    for(i in names(src)){
+      if(!any(names(src[[i]]) %in% c("Name", "Year", "Citation","Notes"))){
+        stop("Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.")
+      }
+      object@sources[[i]] <- src[[i]]
+    }
+  }
+  return(object)
+}
+
+
+
+#' @title Add source information to a meta.frame
+#' @describeIn add_source
+#' @method add_source meta.frame
+#' @export
 #' 
-#' #' @title Add source information to a meta.data object
-#' #' @describeIn add_source
-#' #' @export
-#' add_source.meta.data <- function(object, src){
-#' #   if(is.null(object@sources)){
-#' #     object@sources <- src
-#' #   } else{
-#' #     
-#' #   }
-#' #   
-#'   
-#' }
-#' 
-#' 
-#' 
+add_source.meta.frame <- function(object, src){
+  attr(object, "meta.data") <- add_source(attr(object, "meta.data"), src = src)
+  return(object)
+}
+
+
 #' #' @title Add source information to a data.frame
 #' #' @describeIn add_source
 #' #' @export
@@ -32,26 +58,8 @@
 #'   attr(data, "sources") <- src
 #'   return(data)
 #' }
-#' 
-#' # Sources should either be a list with elements = ncols data + 1, or a subset of that 
-#' # that specify which columns attributed to which source
-#' 
-#' 
-#' #' @title Add source information to a meta.frame
-#' #' @describeIn add_source
-#' #' @export
-#' add_source.metaframe <- function(data, src){
-#'   if(is.null(attr(data, "sources"))){
-#'     attr(data, "sources") <- src
-#'     return(data)
-#'   } else {
-#'     tmp <- attr(data, "sources")
-#'     src <- c(tmp, src) # hack to fix later
-#'     attr(data, "sources") <- src
-#'     return(data)
-#'   }
-#' }
-#' 
+
+
 #' #' @title Add a description to data in R
 #' #' @param data a dataset to append with source information
 #' #' @param descr a character vector describing the data
