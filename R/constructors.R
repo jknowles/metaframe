@@ -62,7 +62,7 @@ add_source.meta.frame <- function(object, src){
 add_label <- function(object, label) UseMethod("add_label")
 
 
-#' @title Add a label to a data.frame
+#' @title Add a label to meta.data
 #' @describeIn add_label
 #' @method add_label meta.data
 #' @export
@@ -93,35 +93,46 @@ add_label.meta.frame <- function(object, label){
   return(object)
 }
 
+#' @title Add annotation information to data in R
+#' @param object an object to append with meta.data notes
+#' @param note a character vector of list for the notes
+#' @description This function will add annotations to the dataset. Annotations
+#' should be non-data descriptions of dataset features such as observation dates,
+#' log information, or equipment changes in collecting data.
+#' @export
+add_note <- function(object, note) UseMethod("add_note")
 
 
+#' @title Add a note to a meta.data
+#' @describeIn add_note
+#' @method add_note meta.data
+#' @export
+add_note.meta.data <- function(object, note){
+  if(is.null(names(note))){
+    stop("note object must be named.")
+  }
+  if(!names(note) %in% object@var_names){
+    stop("Names of note must be in object@var_names.")
+  }
+  if(is.null(object@labels)){
+    object@notes <- note
+  } else{
+    for(i in names(note)){
+      object@notes[[i]] <- note[[i]]
+    }
+  }
+  return(object)
+}
+
+#' @title Add notes to a meta.frame
+#' @describeIn add_note
+#' @method add_note meta.frame
+#' @export
 #' 
-#' 
-#' #' @title Add a description to a data.frame
-#' #' @describeIn add_description
-#' #' @export
-#' add_description.metaframe <- function(data, descr){
-#'   if(is.null(attr(data, "description"))){
-#'     attr(data, "description") <- descr
-#'     return(data)
-#'   } else {
-#'     tmp <- attr(data, "description")
-#'     src <- c(tmp, descr) # hack to fix later
-#'     attr(data, "description") <- descr
-#'     return(data)
-#'   }
-#' }
-#' 
-
-
-#' #' @title Add source information to a data.frame
-#' #' @describeIn add_source
-#' #' @export
-#' add_source.data.frame <- function(object, src){
-#'   data <- metaframe(data)
-#'   attr(data, "sources") <- src
-#'   return(data)
-#' }
+add_note.meta.frame <- function(object, note){
+  attr(object, "meta.data") <- add_note(attr(object, "meta.data"), note = note)
+  return(object)
+}
 
 
 
@@ -194,3 +205,34 @@ add_label.meta.frame <- function(object, label){
 #'     return(data)
 #'   }
 #' }
+
+
+
+#' 
+#' 
+#' #' @title Add a description to a data.frame
+#' #' @describeIn add_description
+#' #' @export
+#' add_description.metaframe <- function(data, descr){
+#'   if(is.null(attr(data, "description"))){
+#'     attr(data, "description") <- descr
+#'     return(data)
+#'   } else {
+#'     tmp <- attr(data, "description")
+#'     src <- c(tmp, descr) # hack to fix later
+#'     attr(data, "description") <- descr
+#'     return(data)
+#'   }
+#' }
+#' 
+
+
+#' #' @title Add source information to a data.frame
+#' #' @describeIn add_source
+#' #' @export
+#' add_source.data.frame <- function(object, src){
+#'   data <- metaframe(data)
+#'   attr(data, "sources") <- src
+#'   return(data)
+#' }
+
