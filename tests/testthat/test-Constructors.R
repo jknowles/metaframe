@@ -130,3 +130,42 @@ test_that("Metaframe objects can be modified in place", {
 })
 
 
+context("Test add_unit")
+
+test_that("Metadata objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  MonthUnit <- list("Month" = "Month was identified using star charts.")
+  MonthUnit2 <- "Month was identified using star charts."; names(MonthUnit2) <- "Month"
+  outMD2 <- add_unit(outMD, unit = MonthUnit)
+  expect_identical(outMD2@units$Month, "Month was identified using star charts.")
+  outMD2 <- add_unit(outMD, unit = MonthUnit2)
+  expect_identical(outMD2@units$Month, "Month was identified using star charts.")
+  expect_error(add_unit(outMD, unit = "Month was identified using star charts."), 
+               "unit object must be named.")
+  expect_error(add_unit(outMD, unit = list("Dumb" = "A person")), 
+               "Names of unit must be in object@var_names.")
+})
+
+test_that("Metaframe objects can be modified in place", {
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  data1 <- data(airquality)
+  testMF <- document(airquality, metadata = outMD); rm(data1)
+  
+  MonthUnit <- list("Month" = "Month was identified using star charts.")
+  MonthUnit2 <- "Month was identified using star charts."; names(MonthUnit2) <- "Month"
+  outMD2 <- add_unit(testMF, unit = MonthUnit)
+  expect_is(outMD2, c("meta.frame", "data.frame"))
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@units$Month,  "Month was identified using star charts.")
+  outMD2 <- add_unit(testMF, unit = MonthUnit2)
+  outMD <- attr(outMD2, "meta.data")
+  expect_identical(outMD@units$Month,  "Month was identified using star charts.")
+  outMD <- skel_reader(system.file("testdata/airqualityExample.csv",
+                                   package="metaframe", mustWork=TRUE))
+  testMF <- document(airquality, metadata = outMD)
+  expect_error(add_unit(testMF, unit = "Month of observation"), "unit object must be named.")
+  expect_error(add_unit(testMF, unit = list("Dumb" = "A person")), 
+               "Names of unit must be in object@var_names.")
+})

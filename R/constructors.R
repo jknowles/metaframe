@@ -114,7 +114,7 @@ add_note.meta.data <- function(object, note){
   if(!names(note) %in% object@var_names){
     stop("Names of note must be in object@var_names.")
   }
-  if(is.null(object@labels)){
+  if(is.null(object@notes)){
     object@notes <- note
   } else{
     for(i in names(note)){
@@ -135,104 +135,43 @@ add_note.meta.frame <- function(object, note){
 }
 
 
-
-#' #' @title Add annotation information to data in R
-#' #' @param data a dataset to modify
-#' #' @param ann a list containing annotation descriptions
-#' #' @description This function will add annotations to the dataset. Annotations 
-#' #' should be non-data descriptions of dataset features such as observation dates, 
-#' #' log information, or equipment changes in collecting data. 
-#' #' @export
-#' add_annotation <- function(data, ann) UseMethod("add_annotation")
-#' 
-#' #' @title Add annotations to a data.frame
-#' #' @describeIn add_annotation
-#' #' @export
-#' add_annotation.data.frame <- function(data, ann){
-#'   data <- metaframe(data)
-#'   attr(data, "annotations") <- ann
-#'   return(data)
-#' }
-#' 
-#' 
-#' #' @title Add annotations to a metaframe
-#' #' @describeIn add_annotation
-#' #' @export
-#' add_annotation.metaframe <- function(data, ann){
-#'   if(is.null(attr(data, "annotations"))){
-#'     attr(data, "annotations") <- ann
-#'     return(data)
-#'   } else {
-#'     tmp <- attr(data, "annotations")
-#'     src <- c(tmp, ann) # hack to fix later
-#'     attr(data, "annotations") <- ann
-#'     return(data)
-#'   }
-#' }
-#' 
-#' #' @title Add information about revisions to data in R
-#' #' @param data a dataset to modify
-#' #' @param revs a list containing descriptions of revisions
-#' #' @description This function will add information about revisions to a dataset. 
-#' #' Revisions are descriptions of changes made to the dataset including  changing 
-#' #' modifications to values of a particular row, column, or cell. 
-#' #' @export
-#' add_revisions <- function(data, revs) UseMethod("add_revisions")
-#' 
-#' 
-#' 
-#' #' @title Add revisions to a data.frame
-#' #' @describeIn add_revisions
-#' #' @export
-#' add_revisions.data.frame <- function(data, revs){
-#'   data <- metaframe(data)
-#'   attr(data, "revisions") <- revs
-#'   return(data)
-#' }
-#' 
-#' 
-#' #' @title Add revisions to a metaframe
-#' #' @describeIn add_revisions
-#' #' @export
-#' add_revisions.metaframe <- function(data, revs){
-#'   if(is.null(attr(data, "revisions"))){
-#'     attr(data, "revisions") <- revs
-#'     return(data)
-#'   } else {
-#'     tmp <- attr(data, "revisions")
-#'     src <- c(tmp, revs) # hack to fix later
-#'     attr(data, "revisions") <- revs
-#'     return(data)
-#'   }
-#' }
+#' @title Add units information to data in R
+#' @param object an object to append with meta.data about units of measurement
+#' @param note a character vector of list for the units
+#' @description This function will add units information to the dataset. Units 
+#' should be short character descriptions of the unit of measure for data elements 
+#' in the data set. 
+#' @export
+add_unit <- function(object, unit) UseMethod("add_unit")
 
 
+#' @title Add a unit to a meta.data
+#' @describeIn add_unit
+#' @method add_unit meta.data
+#' @export
+add_unit.meta.data <- function(object, unit){
+  if(is.null(names(unit))){
+    stop("unit object must be named.")
+  }
+  if(!names(unit) %in% object@var_names){
+    stop("Names of unit must be in object@var_names.")
+  }
+  if(is.null(object@units)){
+    object@units <- unit
+  } else{
+    for(i in names(unit)){
+      object@units[[i]] <- unit[[i]]
+    }
+  }
+  return(object)
+}
 
+#' @title Add units to a meta.frame
+#' @describeIn add_unit
+#' @method add_unit meta.frame
+#' @export
 #' 
-#' 
-#' #' @title Add a description to a data.frame
-#' #' @describeIn add_description
-#' #' @export
-#' add_description.metaframe <- function(data, descr){
-#'   if(is.null(attr(data, "description"))){
-#'     attr(data, "description") <- descr
-#'     return(data)
-#'   } else {
-#'     tmp <- attr(data, "description")
-#'     src <- c(tmp, descr) # hack to fix later
-#'     attr(data, "description") <- descr
-#'     return(data)
-#'   }
-#' }
-#' 
-
-
-#' #' @title Add source information to a data.frame
-#' #' @describeIn add_source
-#' #' @export
-#' add_source.data.frame <- function(object, src){
-#'   data <- metaframe(data)
-#'   attr(data, "sources") <- src
-#'   return(data)
-#' }
-
+add_unit.meta.frame <- function(object, unit){
+  attr(object, "meta.data") <- add_unit(attr(object, "meta.data"), unit = unit)
+  return(object)
+}
