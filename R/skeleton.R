@@ -21,7 +21,6 @@ skeleton <- function(data, file=NULL, replace=FALSE, fileEncoding="latin1", ...)
 
 
 
-#' @title Build a meta.data skeleton from a data.frame
 #' @rdname skeleton
 #' @method skeleton data.frame
 #' @importFrom tools file_ext
@@ -70,6 +69,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
 #' @param fileEncoding character, encoding of the csv file to read, default is "latin1"
 #' @param ... additional arguments to pass to \code{\link{read.csv}} 
 #' @return an object of class meta.data
+#' @description Read in a skeleton of metadata
 #' @details The csv file should match the format of that produced by the appropriate 
 #' skeleton method
 #' @export

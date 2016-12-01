@@ -5,7 +5,7 @@
 #' @param data a data.frame
 #' @param ... additional arguments to \code{\link{document}}
 #' @export
-meta.frame <- function(data, ...) {
+metaframe <- function(data, ...) {
   if (!is.data.frame(data)) stop("data must be a data.frame")
   attr(data, "meta.data") <- document(data, ...)
   structure(data.frame(data), class = c("data.frame", "meta.frame"))
@@ -13,8 +13,8 @@ meta.frame <- function(data, ...) {
 
 #' "meta.frame" class
 #'
-#' @name meta.frame-class
-#' @family meta.frame
+#' @name metaframe-class
+#' @family metaframe
 #'
-#' @exportClass meta.frame
-setOldClass(c("meta.frame", "data.frame"))
+#' @exportClass metaframe
+setOldClass(c("metaframe", "data.frame"))

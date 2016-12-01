@@ -18,7 +18,7 @@ test_that("Metadata objects can be modified in place", {
   expect_error(add_source(outMD, src = list("Dumb" = "A person")), 
                "Names of src must be in object@var_names.")
   expect_error(add_source(outMD, src = list("Month" = list("Cat" = "A person"))), 
-               "Error in add_source.meta.data(outMD, src = list(Month = list(Cat = \"A person\"))) : \n  Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.\n", fixed=TRUE)
+               "Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.", fixed=TRUE)
   
 })
 
@@ -46,7 +46,7 @@ test_that("Metaframe objects can be modified in place", {
   expect_error(add_source(outMD, src = list("Dumb" = "A person")), 
                "Names of src must be in object@var_names.")
   expect_error(add_source(outMD, src = list("Month" = list("Cat" = "A person"))), 
-               "Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.\n", fixed=TRUE)
+               "Each src element must contain only named characters 'Name', 'Year', 'Citation', and 'Notes'.", fixed=TRUE)
   
 })
 

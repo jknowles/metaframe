@@ -3,7 +3,7 @@
 #'
 #' A meta.data object stores metadata about a given data element in R in a structured 
 #' set of lists for easy output and analysis. Most commonly meta.data objects are 
-#' attached to a data.frame and stored as a meta.frame. 
+#' attached to a data.frame and stored as a metaframe. 
 #'
 ##' @name meta.data-class
 ##' @aliases meta.data-class

@@ -20,7 +20,6 @@ codebook <- function(object, file=NULL, replace=FALSE, render=FALSE){
 
 
 
-#' @title Build a codebook from a meta.data object
 #' @rdname codebook
 #' @method codebook meta.data
 #' @import rmarkdown

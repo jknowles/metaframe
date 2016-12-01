@@ -41,7 +41,7 @@ document.data.frame <- function(data, metadata = NULL, sources = NULL, units=NUL
     stopifnot(class(metadata) == "meta.data")
     newdata <- data
     attr(newdata, "meta.data") <- metadata
-    class(newdata) <- c("meta.frame", "data.frame")
+    class(newdata) <- c("metaframe", "data.frame")
     return(newdata)
   }
   K <- ncol(data) + 1
@@ -95,7 +95,7 @@ document.data.frame <- function(data, metadata = NULL, sources = NULL, units=NUL
                      Rname = deparse(substitute(data)))
   newdata <- data
   attr(newdata, "meta.data") <- outMD
-  class(newdata) <- c("meta.frame", "data.frame")
+  class(newdata) <- c("metaframe", "data.frame")
   return(newdata)
 } 
 
@@ -111,7 +111,7 @@ document.data.table <- function(data, metadata = NULL, sources = NULL, units=NUL
     stopifnot(class(metadata) == "meta.data")
     newdata <- data
     attr(newdata, "meta.data") <- metadata
-    class(newdata) <- c("meta.frame", "data.table")
+    class(newdata) <- c("metaframe", "data.table")
     return(newdata)
   }
   K <- ncol(data) + 1
@@ -165,7 +165,7 @@ document.data.table <- function(data, metadata = NULL, sources = NULL, units=NUL
                      Rname = deparse(substitute(data)))
   newdata <- data
   attr(newdata, "meta.data") <- outMD
-  class(newdata) <- c("meta.frame", "data.table")
+  class(newdata) <- c("metaframe", "data.table")
   return(newdata)
 } 
 
