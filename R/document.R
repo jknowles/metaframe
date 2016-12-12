@@ -95,7 +95,7 @@ document.data.frame <- function(data, metadata = NULL, sources = NULL, units=NUL
                      Rname = deparse(substitute(data)))
   newdata <- data
   attr(newdata, "meta.data") <- outMD
-  class(newdata) <- c("metaframe", "data.frame")
+  class(newdata) <- c("metaframe","data.frame")
   return(newdata)
 } 
 

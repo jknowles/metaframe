@@ -14,11 +14,19 @@ summary.metaframe <- function(object, ...){
 #' @description This is a function to print a metaframe
 #' @param x An object of class metaframe
 #' @param ... ignored
+#' @details If the number of rows in the data frame exceed 10, then only the 
+#' first ten rows will be printed
 #' @method print metaframe
 #' @export
 print.metaframe <- function(x, ...){
   print(attr(x, "meta.data"))
-  print.data.frame(x)
+  if(nrow(x) > 10){
+    cat("Output truncated to first 10 rows \n")
+    cat("\n")
+    print.data.frame(x[1:10,])
+  } else{
+    print.data.frame(x)
+  }
 }
 
 

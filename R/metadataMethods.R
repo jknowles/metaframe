@@ -42,11 +42,11 @@ summary.meta.data <- function(object, ...){
   sumTab <- matrix(nrow = length(rows), ncol = length(cols))
   sumTab <- as.data.frame(sumTab); colnames(sumTab) <- cols
   rownames(sumTab) <- rows
-  sumTab$labels <- nchar(unlist(object@labels)) > 5
-  sumTab$units <- nchar(unlist(object@units)) > 3
-  sumTab$notes <- nchar(unlist(object@notes)) > 5
-  sumTab$revisions <- nchar(unlist(object@revisions)) > 5
-  sumTab$sources <- nchar(unlist(lapply(object@sources, "[", "Citation"))) > 10
+  sumTab$labels <- length(nchar(unlist(object@labels)) > 5)
+  sumTab$units <- length(nchar(unlist(object@units)) > 3)
+  sumTab$notes <- length(nchar(unlist(object@notes)) > 5)
+  sumTab$revisions <- length(nchar(unlist(object@revisions)) > 5)
+  sumTab$sources <- length(nchar(unlist(lapply(object@sources, "[", "Citation"))) > 10)
   
   structure(list(sumTab = sumTab, 
                  compPercent = apply(sumTab, 2, function(x) mean(as.numeric(x))) 
@@ -60,10 +60,12 @@ summary.meta.data <- function(object, ...){
 #' @method print summary.meta.data
 #' @export
 print.summary.meta.data <- function(x, ...){
+  cat("** Completeness of meta.data for object ** \n")
+  cat("----------------------------------------\n")
   cat("Percentage of meta.data complete: \n")
   print(round(x$compPercent * 100, 3))
   cat("----- \n")
-  cat("Complete elements: \n")
+  cat("Complete elements by column: \n")
   print(x$sumTab)
 }
 

@@ -49,11 +49,49 @@ can helpfully auto-complete for you.
 
 ### Example
 
+Consider that we wish to document the `airquality` dataset built into R. After 
+loading the dataset, you can call the `document` function to create a new object 
+that contains the data, along with an attached `meta.data` attribute. 
+
 ```{r}
 library(metaframe)
 doco <- document(airquality)
 class(doco)
+```
+
+The new documented object still behaves the way a `dataframe` would be expected 
+to behave in R but with some additional information provided.
+
+```{r}
+summary(doco)
+print(doco)
+```
+
+
+```{r}
 print(attr(doco, "meta.data"))
+
+```
+
+## Adding Metadata
+
+The basic metadata is not very helpful, just some basic numeric summaries re-organized. 
+The power of `metaframe` comes from the ability to add metadata directly to 
+the data object and to render that metadata out. 
+
+To do this, you can use a named list with names referring to the columns in the 
+`metaframe` object. 
+
+```{r}
+# Column labels
+
+my_data_labels <- list("Ozone" = "numeric Ozone (ppb)")
+
+
+```
+
+```{r}
+doco <- add_label(doco, label = my_data_labels)
 
 ```
 
