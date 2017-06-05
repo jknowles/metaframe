@@ -18,4 +18,3 @@ This is a function to print a metaframe
 If the number of rows in the data frame exceed 10, then only the 
 first ten rows will be printed
 }
-

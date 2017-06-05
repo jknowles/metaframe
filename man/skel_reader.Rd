@@ -23,4 +23,3 @@ Read in a skeleton of metadata
 The csv file should match the format of that produced by the appropriate 
 skeleton method
 }
-

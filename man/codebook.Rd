@@ -33,4 +33,3 @@ include auto-generated summary information about the data in the fields.
 \author{
 Carl Frederick
 }
-

@@ -23,4 +23,3 @@ in R. If a description already exists, it will be replaced. If a description
  does not exist, it will convert the object to a metaframe, and append the
  description
 }
-

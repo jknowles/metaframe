@@ -27,11 +27,11 @@ objects with metadata and codebook annotations.
 
 ### Introduction
 
-Metadata is not easily accessed and used in R and this is a big challenge to the 
-efforts to make data analysis more automated and more reproducible. This package 
-seeks to create a simple object-type for easily storing, updating, and outputting 
-metadata during the course of an analysis project. This way the codebook can be 
-baked right into the code. 
+Metadata is not easily accessed and used in R and this is a big challenge to the
+efforts to make data analysis more automated and more reproducible. This package
+seeks to create a simple object-type for easily storing, updating, and
+outputting metadata during the course of an analysis project. This way the
+codebook can be baked right into the code.
 
 ### Overview
 
@@ -44,8 +44,8 @@ enhancements.
 
 ### Storing Metadata in R
 
-`metaframe` organizes your `meta.data` into a few categories -- some of which it 
-can helpfully auto-complete for you. 
+`metaframe` organizes your `meta.data` into a few categories -- some of which it
+can helpfully auto-complete for you.
 
 ### Example
 
@@ -75,18 +75,17 @@ print(attr(doco, "meta.data"))
 
 ## Adding Metadata
 
-The basic metadata is not very helpful, just some basic numeric summaries re-organized. 
-The power of `metaframe` comes from the ability to add metadata directly to 
-the data object and to render that metadata out. 
+The basic metadata is not very helpful, just some basic numeric summaries
+re-organized. The power of `metaframe` comes from the ability to add metadata
+directly to the data object and to render that metadata out.
 
 To do this, you can use a named list with names referring to the columns in the 
-`metaframe` object. 
+`metaframe` object.
 
 ```{r}
 # Column labels
 
 my_data_labels <- list("Ozone" = "numeric Ozone (ppb)")
-
 
 ```
 
@@ -96,8 +95,9 @@ doco <- add_label(doco, label = my_data_labels)
 ```
 
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
-
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to abide by its
+terms.
 
 
 [1]: The object is deliberately named with a period, `meta.data`, to avoid 

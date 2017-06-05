@@ -29,4 +29,3 @@ Yadda yadda yadda
 \author{
 Jared E. Knowles
 }
-

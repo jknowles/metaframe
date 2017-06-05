@@ -6,4 +6,3 @@
 \description{
 "meta.frame" class
 }
-

@@ -22,4 +22,3 @@ This function will add annotations to the dataset. Annotations
 should be non-data descriptions of dataset features such as observation dates,
 log information, or equipment changes in collecting data.
 }
-

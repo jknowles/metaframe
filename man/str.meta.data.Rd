@@ -14,4 +14,3 @@
 \description{
 This is a function to display the internal structure of a meta.data
 }
-

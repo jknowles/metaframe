@@ -20,4 +20,3 @@ Print out user-friendly view of meta.data
 \note{
 Not complete
 }
-

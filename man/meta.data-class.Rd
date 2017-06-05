@@ -2,8 +2,8 @@
 % Please edit documentation in R/metadata.R
 \docType{class}
 \name{meta.data-class}
-\alias{meta.data}
 \alias{meta.data-class}
+\alias{meta.data}
 \title{meta.data data documentation class}
 \description{
 A meta.data object stores metadata about a given data element in R in a structured 
@@ -26,5 +26,5 @@ The object has the following items
  Objects are created by calls to
 \code{\link{meta.data}}.
 }
-\keyword{classes}
 
+\keyword{classes}

@@ -23,4 +23,3 @@ source data already exists, it will modify the source data appropriately.
 If source data does not exist, it will convert the object to a metaframe,
 and append the source data correctly.
 }
-

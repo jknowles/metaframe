@@ -35,4 +35,3 @@ and then used to construct a metadata object.
 \author{
 Jared Knowles
 }
-
