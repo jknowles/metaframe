@@ -37,7 +37,6 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
   md_skel$variable <- varNames
   numSum <- meta.summary(data)$numericSummary
   otherSum <- meta.summary(data)
-  numSum$variable <- row.names(numSum)
   md_skel <- merge(md_skel, numSum, by = "variable",all.x=TRUE)
   
   if(!is.null(file)){
@@ -48,7 +47,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
   }
   
   if (is.null(file)) {
-    print(md_skel)
+    return(md_skel)
   } else {
     if (file.exists(file)) {
       if (replace) {

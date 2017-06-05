@@ -91,7 +91,10 @@ my_data_labels <- list("Ozone" = "numeric Ozone (ppb)")
 
 ```{r}
 doco <- add_label(doco, label = my_data_labels)
-
+add_source
+add_note
+add_unit
+add_revision
 ```
 
 

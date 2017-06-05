@@ -39,10 +39,11 @@ meta.data <- setClass("meta.data", representation(
 ##' Summarize a data object in R. Based on the object 
 ##' structure this function will automatically define some attributes of the data. 
 ##' @param object a data object to define metadata for
-##' @param n number of top and bottom values to retain
+##' @param n number of top and bottom values to retain, default = 3
 ##' @param ... additional arguments to pass through
 ##' @return A \code{list} with summary features for an object
 ##' @note Yadda yadda yadda
+##' @importFrom dplyr bind_rows
 ##' @export meta.summary
 ##' @rdname meta.summary
 ##' @author Jared E. Knowles
@@ -55,35 +56,35 @@ meta.summary <- function(object, n, ...){
 #' @rdname meta.summary
 #' @method meta.summary data.frame
 #' @export
-meta.summary.data.frame <- function(object, n, ...){
-  stataMode <- function(x){
-    x <- as.character(x)
-    z <- table(as.vector(x))
-    m <- names(z)[z == max(z)]
-    
-    if (length(m) == 1){
-      return(m)
-    }
-    return(".")
+meta.summary.data.frame <- function(object, n = 3, ...){
+  # character summary
+  num_idx <- which(sapply(object, is.numeric))
+  char_idx <- which(!sapply(object, is.numeric))
+  if(length(char_idx) == 1){
+    charSum <- char_sum(object[, char_idx])
+    charSum <- data.frame(charSum, stringsAsFactors = FALSE)
+  } else if(length(char_idx) > 1){
+    charSum <- apply(object[, char_idx], 2, char_sum)
+    charSum <- data.frame(t(charSum), stringsAsFactors = FALSE)
   }
-  
-  numSum <- apply(object, 2, function(x) {t(c(min = min(x, na.rm = TRUE),
-                                              Q1 = quantile(x, prob = 0.25, na.rm = TRUE),
-                                              median = median(x, na.rm = TRUE),
-                                              Q3 = quantile(x, prob = 0.75, na.rm = TRUE),
-                                              max =max(x, na.rm = TRUE),
-                                              sd = sd(x, na.rm = TRUE),
-                                              missing = sum(is.na(x == TRUE)),
-                                              nunique = length(unique(x)), 
-                                              mode = stataMode(x), 
-                                              class = class(x)))})
-  
-  numSum <- data.frame(t(numSum), stringsAsFactors = FALSE)
+  charSum[, 2:3] <- apply(charSum[, 2:3], 2, as.numeric)
+  charSum$sort <- char_idx
+  # Only get numeric summary for numeric data
+  if(length(num_idx) == 1){
+    numSum <- num_sum(object[, num_idx])
+    numSum <- data.frame(numSum, stringsAsFactors = FALSE)
+  } else if(length(num_idx) > 1){
+    numSum <- apply(object[, num_idx], 2, num_sum)
+    numSum <- data.frame(t(numSum), stringsAsFactors = FALSE)
+  }
   names(numSum) <- c("min", "Q1", "median", "Q3", "max", "sd", 
                      "missing", "nunique",  "mode", "class")
   numSum[, 1:8] <- apply(numSum[, 1:8], 2, as.numeric)
-  
-  
+  numSum$sort <- num_idx
+  out <-dplyr::bind_rows(charSum, numSum)
+  out <- out[sort(out$sort),]
+  out <- cbind("variable" = names(object), out)
+  out$sort <- NULL # drop sort
   myTab <- function(x, n, order = c("ascending", "descending"), 
                     na.rm=TRUE){
     order <- match.arg(order, several.ok = FALSE)
@@ -105,7 +106,7 @@ meta.summary.data.frame <- function(object, n, ...){
   dataDims <- list('rows' = nrow(object), 'cols' = ncol(object), 
                    'uniqueRows' = nrow(object[!duplicated(object),]))
   varClasses <- apply(object, 2, class)
-  output <- list("numericSummary" = numSum, 
+  output <- list("numericSummary" = out, 
                  "highObs" = highObs, 
                  "lowObs" = lowObs, 
                  'dims' = dataDims,
