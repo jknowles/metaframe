@@ -32,7 +32,8 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
   md_skel <- as.data.frame(setNames(replicate(length(colNames),
                                              rep(" ", length(varNames)), 
                                              simplify = F), colNames), 
-                          row.names = 1:length(varNames))
+                          row.names = 1:length(varNames), 
+                          stringsAsFactors = FALSE)
   
   md_skel$variable <- varNames
   numSum <- meta.summary(data)$numericSummary
@@ -64,6 +65,7 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
 
 
 #' @title Read in an external metadata file formatted by skeleton
+#' @param object an R data.frame containing metadata to convert to a metadata object
 #' @param file a file path to read in a csv file
 #' @param fileEncoding character, encoding of the csv file to read, default is "latin1"
 #' @param ... additional arguments to pass to \code{\link{read.csv}} 
@@ -72,8 +74,19 @@ skeleton.data.frame <- function(data, file=NULL, replace=FALSE, fileEncoding="la
 #' @details The csv file should match the format of that produced by the appropriate 
 #' skeleton method
 #' @export
-skel_reader <- function(file, fileEncoding = "latin1", ...){
-  md_skel <- read.csv(file = file, stringsAsFactors = FALSE, fileEncoding = fileEncoding, ...)
+skel_reader <- function(object = NULL, file = NULL, fileEncoding = "latin1", ...){
+  if(!is.null(file) & !is.null(object)){
+    stop("Specify only a file or an object name, not both")
+  }
+  if(is.null(file) & is.null(object)){
+    stop("Specify a file or an object name to convert to metadata")
+  }
+  if(!is.null(file)){
+    md_skel <- read.csv(file = file, stringsAsFactors = FALSE, fileEncoding = fileEncoding, ...)
+  } else if(!is.null(object)){
+    md_skel <- object
+  }
+  
   # Add some validity checks here
   labels <- as.list(md_skel$labels); names(labels) <- md_skel$variable
   units <- as.list(md_skel$units); names(units) <- md_skel$variable

@@ -12,6 +12,14 @@ shinyUI(fluidPage(
            rHandsontableOutput("hot"),
            style='padding:10px'
     ),
+    column(4,
+           wellPanel(
+             helpText("Export your metaframe:"),
+             # add a save and quit, and a just quit button
+             downloadButton('downloadData', 'Download'),
+             actionButton('rstudio', "Send to Global Env.")
+           )
+    ),
     column(10,
            helpText("Data"),
            dataTableOutput("dt"),
@@ -21,14 +29,7 @@ shinyUI(fluidPage(
            helpText("Summary Stats"),
            tableOutput("sumtable"),
            style='padding:10px'
-    ),
-    column(4,
-           wellPanel(
-             helpText("Export your metaframe:"),
-             downloadButton('downloadData', 'Download'),
-             actionButton('exportData', "Send to RStudio")
-       )
-      )
+    )
     )
   )
 )

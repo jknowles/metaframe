@@ -4,9 +4,12 @@
 \alias{shine_doc}
 \title{Launch a shiny app to document your data interactively}
 \usage{
-shine_doc(newdata)
+shine_doc(data, pos = 1)
 }
 \arguments{
+\item{pos}{The position of the environment to export function arguments to.
+Defaults to 1, the global environment, to allow shiny to run.}
+
 \item{newdata}{data you want to document}
 }
 \value{

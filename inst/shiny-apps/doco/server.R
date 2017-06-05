@@ -36,21 +36,32 @@ shinyServer(function(input, output, session) {
       write.csv(data, file)
     }
   )
+  
+  # your action button condition
+  exportData <- observe({
+    if(input$rstudio > 0) {
+      # create the new line to be added from your inputs
+      out_data <- isolate(hot_to_r(input$hot))
+      sum_data <- isolate(sumTable())
+      out_data <- dplyr::bind_cols(out_data, sum_data)
+      # update your data
+      # note the unlist of newLine, this prevents a bothersome warning message that the rbind will return regarding rownames because of using isolate.
+      save_data <<- out_data
+    }
+    
+  })
+  
+  sumTable <- reactive({
+    skeleton(input_data)[, c("variable", "mode", "missing", "nunique", "class", 
+                             "min", "Q1", "median", "Q3", "max", "sd")]
+  })
 
-  # Consider ease of maintenance by making this pop up
-  # output$rstudio <- eventReactive(input$exportData, {
-  #   rslt <- capture.output(dput(hot_to_r(input$hot)))
-  #   rstudioapi::insertText(Inf, paste0("CEDS_map = ",
-  #                                      paste(rslt, collapse = "\n")))
-  #
-  # })
   output$dt <- renderDataTable({
     input_data
   })
   
   output$sumtable <- renderTable({
-    skeleton(input_data)[, c("variable", "mode", "missing", "nunique", "class", 
-                       "min", "Q1", "median", "Q3", "max", "sd")]
+    sumTable()
   })
 
   observe({
@@ -64,7 +75,12 @@ shinyServer(function(input, output, session) {
     })
     
   })
-  
+  session$onSessionEnded(function() { stopApp({
+    out_data <- isolate(hot_to_r(input$hot))
+    sum_data <- isolate(sumTable())
+    dplyr::bind_cols(out_data, sum_data)
+    })
+  })
 }
 )
 

@@ -4,9 +4,11 @@
 \alias{skel_reader}
 \title{Read in an external metadata file formatted by skeleton}
 \usage{
-skel_reader(file, fileEncoding = "latin1", ...)
+skel_reader(object = NULL, file = NULL, fileEncoding = "latin1", ...)
 }
 \arguments{
+\item{object}{an R data.frame containing metadata to convert to a metadata object}
+
 \item{file}{a file path to read in a csv file}
 
 \item{fileEncoding}{character, encoding of the csv file to read, default is "latin1"}

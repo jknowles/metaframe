@@ -9,6 +9,7 @@ stata_mode <- function(x){
   return(".")
 }
 
+# Get a numeric summary for metadata
 num_sum <- function(x){
   t(c(min = min(x, na.rm = TRUE),
       Q1 = quantile(x, prob = 0.25, na.rm = TRUE),
@@ -22,6 +23,7 @@ num_sum <- function(x){
       class = class(x)))
 }
 
+# Get a factor/character summary for metadata
 char_sum <- function(x){
   t(c(mode = stata_mode(x), 
     missing = sum(is.na(x == TRUE)),
