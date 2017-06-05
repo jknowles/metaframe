@@ -7,12 +7,12 @@
 \usage{
 meta.summary(object, n, ...)
 
-\method{meta.summary}{data.frame}(object, n, ...)
+\method{meta.summary}{data.frame}(object, n = 3, ...)
 }
 \arguments{
 \item{object}{a data object to define metadata for}
 
-\item{n}{number of top and bottom values to retain}
+\item{n}{number of top and bottom values to retain, default = 3}
 
 \item{...}{additional arguments to pass through}
 }

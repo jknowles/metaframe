@@ -17,6 +17,11 @@ shinyUI(fluidPage(
            dataTableOutput("dt"),
            style='padding:10px'
     ),
+    column(10,
+           helpText("Summary Stats"),
+           tableOutput("sumtable"),
+           style='padding:10px'
+    ),
     column(4,
            wellPanel(
              helpText("Export your metaframe:"),

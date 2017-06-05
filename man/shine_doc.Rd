@@ -4,10 +4,10 @@
 \alias{shine_doc}
 \title{Launch a shiny app to document your data interactively}
 \usage{
-shine_doc(data)
+shine_doc(newdata)
 }
 \arguments{
-\item{data}{data you want to document}
+\item{newdata}{data you want to document}
 }
 \value{
 A shiny app
